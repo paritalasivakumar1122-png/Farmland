@@ -2,182 +2,240 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Paritala Farm Land</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Paritala Farm Land — Red Sandalwood Investments</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--g:#2d6a2d;--g2:#3a8c3a;--g3:#e8f5e8;--g4:#1a4a1a;--gold:#c8922a;--gold2:#f5e6c8;--dk:#1c1c1c;--mid:#555;--lt:#f7f5f0;--wh:#fff;--bd:#ddd;--sh:0 2px 16px rgba(0,0,0,.08)}
+:root{
+  --g:#2d6a2d;--g2:#3a8c3a;--g3:#e8f5e8;--g4:#1a4a1a;
+  --gold:#c8922a;--gold2:#f5e6c8;
+  --dk:#1c1c1c;--mid:#555;--lt:#f7f5f0;--wh:#fff;--bd:#ddd;
+  --sh:0 2px 16px rgba(0,0,0,.08);
+}
 body{font-family:'DM Sans',sans-serif;background:var(--lt);color:var(--dk);overflow-x:hidden}
 .hidden{display:none!important}
-#price-ticker{position:fixed;top:90px;left:0;z-index:999;background:var(--g);color:#fff;padding:8px 14px 8px 10px;border-radius:0 8px 8px 0;font-size:13px;font-weight:600;box-shadow:2px 2px 10px rgba(0,0,0,.2);cursor:pointer;line-height:1.3}
+
+/* LOADER OVERLAY */
+#page-loader{position:fixed;inset:0;background:rgba(255,255,255,.85);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.loader-spinner{width:36px;height:36px;border:3px solid var(--g3);border-top-color:var(--g);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-text{font-size:13px;color:var(--mid)}
+
+/* PRICE TICKER */
+#price-ticker{position:fixed;top:90px;left:0;z-index:999;background:var(--g);color:#fff;padding:8px 14px 8px 10px;border-radius:0 8px 8px 0;font-size:13px;font-weight:600;box-shadow:2px 2px 10px rgba(0,0,0,.2);cursor:pointer;line-height:1.3;transition:transform .2s}
+#price-ticker:hover{transform:translateX(3px)}
 #price-ticker .lbl{font-size:10px;opacity:.8;font-weight:400}
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:#fff;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:70px;box-shadow:var(--sh)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:#fff;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:70px;box-shadow:var(--sh)}
 .nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer}
-.nav-logo-icon{width:40px;height:40px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center}
-.nav-logo-icon svg{width:22px;height:22px;fill:#fff}
-.nav-brand{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--g4);line-height:1.1}
-.nav-brand span{display:block;font-size:11px;font-family:'DM Sans',sans-serif;font-weight:400;color:var(--mid)}
-.nav-links{display:flex;gap:2px;align-items:center}
-.nav-links a{padding:7px 12px;border-radius:6px;font-size:13px;font-weight:500;color:var(--mid);text-decoration:none;cursor:pointer;transition:all .2s}
+.nav-logo-icon{width:42px;height:42px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nav-logo-icon svg{width:24px;height:24px;fill:#fff}
+.nav-brand{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--g4);line-height:1.1}
+.nav-brand span{display:block;font-size:11px;font-family:'DM Sans',sans-serif;font-weight:400;color:var(--mid);letter-spacing:.5px}
+.nav-links{display:flex;gap:3px;align-items:center}
+.nav-links a{padding:8px 13px;border-radius:6px;font-size:14px;font-weight:500;color:var(--mid);text-decoration:none;cursor:pointer;transition:all .2s}
 .nav-links a:hover,.nav-links a.active{color:var(--g);background:var(--g3)}
 .nav-cta{background:var(--g)!important;color:#fff!important;border-radius:8px!important}
-.nav-cta:hover{background:var(--g4)!important}
-.nav-admin-btn{background:none;border:1px solid var(--bd);padding:6px 12px;border-radius:6px;font-size:12px;color:var(--mid);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;margin-left:8px}
+.nav-cta:hover{background:var(--g4)!important;color:#fff!important}
+.nav-admin-btn{background:none;border:1px solid var(--bd);padding:6px 14px;border-radius:6px;font-size:13px;color:var(--mid);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;margin-left:6px}
 .nav-admin-btn:hover{border-color:var(--g);color:var(--g)}
+
+/* PAGES */
 .page{display:none;padding-top:70px;min-height:100vh}
 .page.active{display:block}
-.hero{background:linear-gradient(135deg,var(--g4) 0%,var(--g) 60%,#4a9e4a 100%);color:#fff;padding:70px 32px 50px;text-align:center;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 28v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 28v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")}
-.hero-badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);padding:5px 16px;border-radius:20px;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:18px}
-.hero h1{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,54px);font-weight:700;line-height:1.1;margin-bottom:14px}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--g4) 0%,var(--g) 60%,#4a9e4a 100%);color:#fff;padding:80px 32px 60px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);padding:5px 16px;border-radius:20px;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(30px,5vw,56px);font-weight:700;line-height:1.1;margin-bottom:16px}
 .hero h1 span{color:#f5c842}
-.hero p{font-size:16px;opacity:.85;max-width:540px;margin:0 auto 28px;line-height:1.7}
+.hero p{font-size:17px;opacity:.85;max-width:560px;margin:0 auto 32px;line-height:1.7}
 .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-primary{background:#fff;color:var(--g);padding:11px 26px;border-radius:8px;font-weight:600;font-size:14px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.btn-primary{background:#fff;color:var(--g);padding:12px 28px;border-radius:8px;font-weight:600;font-size:15px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
 .btn-primary:hover{background:var(--gold2);transform:translateY(-1px)}
-.btn-outline{background:transparent;color:#fff;padding:11px 26px;border-radius:8px;font-weight:600;font-size:14px;border:2px solid rgba(255,255,255,.5);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.btn-outline{background:transparent;color:#fff;padding:12px 28px;border-radius:8px;font-weight:600;font-size:15px;border:2px solid rgba(255,255,255,.5);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
 .btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.1)}
-.hero-stats{display:flex;gap:32px;justify-content:center;margin-top:40px;flex-wrap:wrap}
-.hero-stat{text-align:center}
-.hero-stat-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#f5c842}
-.hero-stat-label{font-size:11px;opacity:.75;letter-spacing:.5px;margin-top:2px}
-.dummy-images-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0;height:260px;overflow:hidden}
+.hero-stats{display:flex;gap:40px;justify-content:center;margin-top:48px;flex-wrap:wrap}
+.hero-stat-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:#f5c842}
+.hero-stat-label{font-size:12px;opacity:.75;letter-spacing:.5px;margin-top:2px;text-align:center}
+
+/* DUMMY IMAGE STRIP */
+.dummy-images-row{display:grid;grid-template-columns:repeat(3,1fr);height:260px;overflow:hidden}
 .dummy-img{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#c8d8c0}
 .dummy-img svg{position:absolute;inset:0;width:100%;height:100%}
-.dummy-img .img-caption{position:absolute;bottom:0;left:0;right:0;background:rgba(26,74,26,.7);color:#fff;font-size:12px;font-weight:600;padding:8px 12px;text-align:center}
-.section{padding:56px 32px;max-width:1100px;margin:0 auto}
-.section-tag{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--g);margin-bottom:6px}
-.section-title{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,38px);font-weight:700;color:var(--g4);margin-bottom:10px;line-height:1.2}
-.section-sub{font-size:15px;color:var(--mid);max-width:500px;line-height:1.7}
-.divider{width:50px;height:3px;background:var(--gold);border-radius:2px;margin:12px 0}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.dummy-img .img-caption{position:absolute;bottom:0;left:0;right:0;background:rgba(26,74,26,.72);color:#fff;font-size:12px;font-weight:600;padding:8px 12px;text-align:center}
+
+/* SECTION */
+.section{padding:64px 32px;max-width:1100px;margin:0 auto}
+.section-tag{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--g);margin-bottom:8px}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,40px);font-weight:700;color:var(--g4);margin-bottom:12px;line-height:1.2}
+.section-sub{font-size:16px;color:var(--mid);max-width:520px;line-height:1.7}
+.divider{width:60px;height:3px;background:var(--gold);border-radius:2px;margin:16px 0}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
 .about-img{background:var(--g3);border-radius:16px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-.feature{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
-.feature-icon{width:28px;height:28px;background:var(--g3);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
-.feature-text h4{font-size:13px;font-weight:600;color:var(--g4)}
-.feature-text p{font-size:12px;color:var(--mid);margin-top:1px}
-.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.feature{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px}
+.feature-icon{width:36px;height:36px;background:var(--g3);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.feature-text h4{font-size:14px;font-weight:600;color:var(--g4)}
+.feature-text p{font-size:13px;color:var(--mid);margin-top:2px}
+
+/* PROJECTS */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:24px}
 .project-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:var(--sh);border:1px solid var(--bd);transition:transform .2s,box-shadow .2s}
-.project-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.12)}
-.proj-gallery{height:180px;background:var(--g3);position:relative;overflow:hidden;cursor:pointer}
+.project-card:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,.12)}
+.proj-gallery{height:190px;background:var(--g3);position:relative;overflow:hidden}
 .proj-gallery-imgs{display:flex;height:100%;transition:transform .3s}
-.proj-gallery-img{flex-shrink:0;width:100%;height:100%;object-fit:cover;display:flex;align-items:center;justify-content:center;background:var(--g3)}
-.proj-gallery-placeholder{flex-shrink:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--g3);color:var(--g);font-size:13px;gap:6px}
+.proj-gallery-img{flex-shrink:0;width:100%;height:100%;object-fit:cover}
+.proj-gallery-placeholder{flex-shrink:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--g3);color:var(--g4);font-size:13px;gap:8px}
 .proj-gallery-nav{position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:center;gap:5px}
 .proj-gallery-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.6);cursor:pointer;transition:background .2s}
 .proj-gallery-dot.active{background:#fff}
-.proj-gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.35);color:#fff;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.proj-gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.4);color:#fff;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
 .proj-gallery-arrow.left{left:8px}
 .proj-gallery-arrow.right{right:8px}
-.proj-upload-btn{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.5);color:#fff;border:none;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif}
-.project-header{background:var(--g);color:#fff;padding:16px 18px}
-.project-badge{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;font-size:10px;padding:2px 9px;margin-bottom:6px}
-.project-header h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:700}
-.project-body{padding:16px 18px}
-.project-stat-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-.proj-stat{background:var(--lt);border-radius:8px;padding:9px 11px}
-.proj-stat .lbl{font-size:10px;color:var(--mid);text-transform:uppercase;letter-spacing:.5px}
-.proj-stat .val{font-size:14px;font-weight:600;color:var(--g4);margin-top:1px}
-.vacancy-label{font-size:11px;color:var(--mid);margin-bottom:5px;font-weight:500}
-.vacancy-pills{display:flex;flex-wrap:wrap;gap:4px}
-.vacancy-pill{background:var(--g3);color:var(--g4);font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px}
-.project-footer{padding:12px 18px;border-top:1px solid var(--bd);display:flex;gap:8px}
-.btn-map{flex:1;background:var(--g);color:#fff;border:none;padding:8px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s}
+.project-header{background:var(--g);color:#fff;padding:18px 20px}
+.project-badge{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;font-size:11px;padding:3px 10px;margin-bottom:6px}
+.project-header h3{font-family:'Playfair Display',serif;font-size:21px;font-weight:700}
+.project-body{padding:18px 20px}
+.project-stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.proj-stat{background:var(--lt);border-radius:8px;padding:10px 12px}
+.proj-stat .lbl{font-size:11px;color:var(--mid);text-transform:uppercase;letter-spacing:.5px}
+.proj-stat .val{font-size:14px;font-weight:600;color:var(--g4);margin-top:2px}
+.vacancy-label{font-size:12px;color:var(--mid);margin-bottom:6px;font-weight:500}
+.vacancy-pills{display:flex;flex-wrap:wrap;gap:5px}
+.vacancy-pill{background:var(--g3);color:var(--g4);font-size:11px;font-weight:600;padding:3px 8px;border-radius:12px}
+.project-footer{padding:14px 20px;border-top:1px solid var(--bd);display:flex;gap:10px}
+.btn-map{flex:1;background:var(--g);color:#fff;border:none;padding:9px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s}
 .btn-map:hover{background:var(--g4)}
-.btn-enquire{flex:1;background:#fff;color:var(--g);border:1.5px solid var(--g);padding:8px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.btn-enquire{flex:1;background:#fff;color:var(--g);border:1.5px solid var(--g);padding:9px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
 .btn-enquire:hover{background:var(--g3)}
+
+/* INVESTMENT TABLE */
 .inv-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--sh)}
-.inv-table th{background:var(--g);color:#fff;padding:12px 14px;font-size:12px;font-weight:600;text-align:left}
-.inv-table td{padding:12px 14px;font-size:13px;border-bottom:1px solid var(--bd)}
+.inv-table th{background:var(--g);color:#fff;padding:13px 15px;font-size:13px;font-weight:600;text-align:left}
+.inv-table td{padding:13px 15px;font-size:14px;border-bottom:1px solid var(--bd)}
 .inv-table tr:last-child td{border:none}
 .inv-table tr:nth-child(even) td{background:var(--lt)}
 .inv-table .hl{font-weight:700;color:var(--g)}
-.contact-wrap{display:grid;grid-template-columns:1fr 1.4fr;gap:36px;align-items:start}
-.contact-info h3{font-family:'Playfair Display',serif;font-size:24px;color:var(--g4);margin-bottom:14px}
-.contact-detail{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
-.contact-detail-icon{width:28px;height:28px;background:var(--g3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:1px}
-.contact-detail-text{font-size:13px;color:var(--dk)}
-.branch-card{background:#fff;border-radius:10px;border:1px solid var(--bd);padding:14px;margin-bottom:10px;box-shadow:var(--sh)}
-.branch-card h4{font-size:13px;font-weight:700;color:var(--g4);margin-bottom:6px}
-.contact-form{background:#fff;border-radius:16px;padding:24px;box-shadow:var(--sh);border:1px solid var(--bd)}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.form-group{margin-bottom:12px}
-.form-group label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--mid);display:block;margin-bottom:4px}
-.form-group input,.form-group select,.form-group textarea{width:100%;padding:9px 11px;border:1.5px solid var(--bd);border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;background:#fff;color:var(--dk);outline:none;transition:border-color .2s}
+
+/* CONTACT */
+.contact-wrap{display:grid;grid-template-columns:1fr 1.4fr;gap:40px;align-items:start}
+.contact-form{background:#fff;border-radius:16px;padding:28px;box-shadow:var(--sh);border:1px solid var(--bd)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-group{margin-bottom:14px}
+.form-group label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--mid);display:block;margin-bottom:5px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 12px;border:1.5px solid var(--bd);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;background:#fff;color:var(--dk);outline:none;transition:border-color .2s}
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--g)}
-.form-group textarea{resize:vertical;min-height:80px}
-.submit-btn{width:100%;background:var(--g);color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s}
+.form-group textarea{resize:vertical;min-height:90px}
+.submit-btn{width:100%;background:var(--g);color:#fff;border:none;padding:13px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s}
 .submit-btn:hover{background:var(--g4)}
-.locations-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:24px}
+.submit-btn:disabled{opacity:.6;cursor:not-allowed}
+.branch-card{background:#fff;border-radius:10px;border:1px solid var(--bd);padding:14px;margin-bottom:10px;box-shadow:var(--sh)}
+.branch-card h4{font-size:13px;font-weight:700;color:var(--g4);margin-bottom:5px}
+.locations-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:20px}
 .loc-card{background:#fff;border-radius:12px;border:1px solid var(--bd);padding:18px;box-shadow:var(--sh)}
 .loc-card h4{font-size:14px;font-weight:700;color:var(--g4);margin-bottom:6px}
 .loc-card p{font-size:12px;color:var(--mid);line-height:1.6;margin-bottom:10px}
-.loc-map-btn{background:var(--g3);color:var(--g4);border:1px solid rgba(45,106,45,.2);padding:6px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%}
-.career-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-.job-card{background:#fff;border-radius:14px;border:1px solid var(--bd);padding:20px;box-shadow:var(--sh);transition:transform .2s}
-.job-card:hover{transform:translateY(-2px)}
-.job-badge{display:inline-block;background:var(--g3);color:var(--g4);font-size:10px;font-weight:700;padding:3px 9px;border-radius:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
-.job-card h3{font-size:17px;font-weight:700;color:var(--g4);margin-bottom:4px}
-.job-card .loc{font-size:12px;color:var(--mid);margin-bottom:10px}
-.job-card p{font-size:13px;color:var(--mid);line-height:1.6;margin-bottom:14px}
-.job-apply-btn{width:100%;background:var(--g);color:#fff;border:none;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+.loc-map-btn{background:var(--g3);color:var(--g4);border:1px solid rgba(45,106,45,.2);padding:7px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%}
+
+/* CAREERS */
+.career-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px}
+.job-card{background:#fff;border-radius:14px;border:1px solid var(--bd);padding:22px;box-shadow:var(--sh);transition:transform .2s}
+.job-card:hover{transform:translateY(-3px)}
+.job-badge{display:inline-block;background:var(--g3);color:var(--g4);font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.job-card h3{font-size:18px;font-weight:700;color:var(--g4);margin-bottom:4px}
+.job-meta{font-size:12px;color:var(--mid);margin-bottom:10px}
+.job-card p{font-size:13px;color:var(--mid);line-height:1.6;margin-bottom:16px}
+.job-apply-btn{width:100%;background:var(--g);color:#fff;border:none;padding:10px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s}
 .job-apply-btn:hover{background:var(--g4)}
-footer{background:var(--g4);color:#fff;padding:40px 32px 20px}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:36px;max-width:1100px;margin:0 auto;padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,.1)}
-.footer-brand-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;margin-bottom:7px}
-.footer-brand-desc{font-size:12px;opacity:.7;line-height:1.6;max-width:280px}
-.footer-col h4{font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;opacity:.6;margin-bottom:12px}
-.footer-col a{display:block;font-size:13px;opacity:.8;margin-bottom:7px;text-decoration:none;color:#fff;cursor:pointer;transition:opacity .2s}
+.apply-wrap{background:var(--g3);border-radius:14px;padding:26px;border:1px solid rgba(45,106,45,.15);margin-top:32px;display:none}
+.apply-wrap h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--g4);margin-bottom:18px}
+
+/* FOOTER */
+footer{background:var(--g4);color:#fff;padding:48px 32px 24px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;max-width:1100px;margin:0 auto;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.1)}
+.footer-brand-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:8px}
+.footer-brand-desc{font-size:13px;opacity:.7;line-height:1.6;max-width:300px}
+.footer-col h4{font-size:13px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;opacity:.6;margin-bottom:14px}
+.footer-col a{display:block;font-size:14px;opacity:.8;margin-bottom:8px;text-decoration:none;color:#fff;cursor:pointer;transition:opacity .2s}
 .footer-col a:hover{opacity:1}
-.footer-bottom{max-width:1100px;margin:0 auto;padding-top:16px;display:flex;justify-content:space-between;font-size:11px;opacity:.5}
+.footer-bottom{max-width:1100px;margin:0 auto;padding-top:20px;display:flex;justify-content:space-between;font-size:12px;opacity:.5}
+
+/* ADMIN */
 .admin-login{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 70px);background:var(--lt)}
-.admin-login-card{background:#fff;border-radius:16px;padding:36px;width:280px;box-shadow:0 4px 32px rgba(0,0,0,.1);border:1px solid var(--bd)}
-.admin-login-card h2{font-family:'Playfair Display',serif;font-size:22px;color:var(--g4);margin-bottom:5px}
-.admin-login-card p{color:var(--mid);font-size:13px;margin-bottom:22px}
-.admin-wrap{padding:28px;max-width:1100px;margin:0 auto}
-.admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-.admin-header h2{font-family:'Playfair Display',serif;font-size:26px;color:var(--g4)}
-.admin-tabs{display:flex;gap:3px;background:var(--lt);padding:4px;border-radius:10px;margin-bottom:22px;border:1px solid var(--bd);flex-wrap:wrap}
-.admin-tab{flex:1;padding:8px 12px;border:none;background:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--mid);border-radius:7px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.admin-login-card{background:#fff;border-radius:16px;padding:40px;width:360px;box-shadow:0 4px 32px rgba(0,0,0,.1);border:1px solid var(--bd)}
+.admin-login-card h2{font-family:'Playfair Display',serif;font-size:24px;color:var(--g4);margin-bottom:6px}
+.admin-login-card p{color:var(--mid);font-size:14px;margin-bottom:24px}
+.admin-wrap{padding:32px;max-width:1100px;margin:0 auto}
+.admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+.admin-header h2{font-family:'Playfair Display',serif;font-size:28px;color:var(--g4)}
+.admin-tabs{display:flex;gap:4px;background:var(--lt);padding:4px;border-radius:10px;margin-bottom:24px;border:1px solid var(--bd);flex-wrap:wrap}
+.admin-tab{flex:1;padding:9px 14px;border:none;background:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--mid);border-radius:7px;cursor:pointer;transition:all .2s;white-space:nowrap}
 .admin-tab.active{background:#fff;color:var(--g4);font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.admin-card{background:#fff;border-radius:12px;padding:20px;border:1px solid var(--bd);box-shadow:var(--sh);margin-bottom:18px}
-.admin-card h3{font-size:15px;font-weight:600;color:var(--g4);margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--bd)}
-.admin-form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.aig{margin-bottom:10px}
-.aig label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--mid);display:block;margin-bottom:3px}
-.aig input,.aig textarea,.aig select{width:100%;padding:8px 11px;border:1.5px solid var(--bd);border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
+.admin-card{background:#fff;border-radius:12px;padding:22px;border:1px solid var(--bd);box-shadow:var(--sh);margin-bottom:20px}
+.admin-card h3{font-size:16px;font-weight:600;color:var(--g4);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--bd)}
+.admin-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.aig{margin-bottom:12px}
+.aig label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--mid);display:block;margin-bottom:4px}
+.aig input,.aig textarea,.aig select{width:100%;padding:9px 12px;border:1.5px solid var(--bd);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
 .aig input:focus,.aig textarea:focus{border-color:var(--g)}
-.admin-save-btn{background:var(--g);color:#fff;border:none;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
-.admin-del-btn{background:#fff;color:#c0392b;border:1.5px solid #c0392b;padding:6px 12px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
-.sub-table{width:100%;border-collapse:collapse;font-size:12px}
-.sub-table th{background:var(--lt);padding:9px 11px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--mid);border-bottom:1px solid var(--bd)}
-.sub-table td{padding:9px 11px;border-bottom:1px solid var(--bd);vertical-align:top;word-break:break-word}
+.admin-save-btn{background:var(--g);color:#fff;border:none;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s}
+.admin-save-btn:hover{background:var(--g4)}
+.admin-save-btn:disabled{opacity:.6;cursor:not-allowed}
+.admin-del-btn{background:#fff;color:#c0392b;border:1.5px solid #c0392b;padding:7px 14px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
+.sub-table{width:100%;border-collapse:collapse;font-size:13px}
+.sub-table th{background:var(--lt);padding:10px 12px;text-align:left;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--mid);border-bottom:1px solid var(--bd)}
+.sub-table td{padding:10px 12px;border-bottom:1px solid var(--bd);vertical-align:top;word-break:break-word}
 .sub-table tr:hover td{background:var(--g3)}
-.sub-tag{display:inline-block;background:var(--g3);color:var(--g4);font-size:10px;padding:2px 7px;border-radius:8px;font-weight:600}
-.no-data{text-align:center;color:var(--mid);padding:32px;font-size:13px}
-.proj-admin-item{background:#fff;border-radius:10px;border:1px solid var(--bd);padding:14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.proj-admin-name{font-weight:600;font-size:14px;color:var(--g4);margin-bottom:3px}
-.proj-admin-meta{font-size:11px;color:var(--mid)}
-.admin-edit-btn{background:var(--g3);color:var(--g4);border:none;padding:6px 12px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;display:flex;align-items:center;justify-content:center;padding:16px}
-.modal{background:#fff;border-radius:16px;padding:24px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.2)}
-.modal h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--g4);margin-bottom:18px}
-.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;padding-top:14px;border-top:1px solid var(--bd)}
-.modal-cancel{background:#fff;color:var(--mid);border:1.5px solid var(--bd);padding:8px 18px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif}
-.toast{position:fixed;bottom:20px;right:20px;background:var(--g4);color:#fff;padding:11px 18px;border-radius:10px;font-size:13px;font-weight:500;z-index:3000;box-shadow:0 4px 20px rgba(0,0,0,.2);transform:translateY(100px);transition:transform .3s}
+.sub-tag{display:inline-block;background:var(--g3);color:var(--g4);font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600}
+.no-data{text-align:center;color:var(--mid);padding:40px;font-size:14px}
+.proj-admin-item{background:#fff;border-radius:10px;border:1px solid var(--bd);padding:16px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.proj-admin-name{font-weight:600;font-size:15px;color:var(--g4);margin-bottom:3px}
+.proj-admin-meta{font-size:12px;color:var(--mid)}
+.admin-edit-btn{background:var(--g3);color:var(--g4);border:none;padding:7px 14px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:#fff;border-radius:16px;padding:28px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.2)}
+.modal h3{font-family:'Playfair Display',serif;font-size:22px;color:var(--g4);margin-bottom:20px}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--bd)}
+.modal-cancel{background:#fff;color:var(--mid);border:1.5px solid var(--bd);padding:9px 20px;border-radius:8px;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.img-preview{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.img-thumb{position:relative;width:72px;height:54px;border-radius:6px;overflow:hidden;border:1px solid var(--bd)}
+.img-thumb img{width:100%;height:100%;object-fit:cover}
+.img-thumb button{position:absolute;top:1px;right:1px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:50%;width:16px;height:16px;font-size:11px;cursor:pointer;line-height:16px;padding:0;display:flex;align-items:center;justify-content:center}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--g4);color:#fff;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:500;z-index:3000;box-shadow:0 4px 20px rgba(0,0,0,.2);transform:translateY(100px);transition:transform .3s;max-width:320px}
 .toast.show{transform:translateY(0)}
-.apply-form-wrap{background:var(--g3);border-radius:14px;padding:24px;border:1px solid rgba(45,106,45,.15)}
-@media(max-width:768px){.about-grid,.contact-wrap,.footer-grid,.admin-form-row,.form-row{grid-template-columns:1fr}.nav-links{display:none}.section{padding:36px 14px}.admin-wrap{padding:14px}.dummy-images-row{grid-template-columns:1fr;height:auto}.dummy-img{height:160px}}
+.toast.error{background:#c0392b}
+
+@media(max-width:768px){
+  .about-grid,.contact-wrap,.footer-grid,.admin-form-row,.form-row{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .section{padding:40px 16px}
+  .admin-wrap{padding:16px}
+  .dummy-images-row{grid-template-columns:1fr;height:auto}
+  .dummy-img{height:180px}
+}
 </style>
 </head>
 <body>
 
+<!-- PAGE LOADER -->
+<div id="page-loader"><div class="loader-spinner"></div><div class="loader-text">Loading...</div></div>
+
+<!-- PRICE TICKER -->
 <div id="price-ticker" onclick="sp('projects')">
   <div class="lbl">Current Rate</div>
-  <div id="ticker-price">₹702/- per Sq.Yd</div>
+  <div id="ticker-price">₹579/- per Sq.Yd</div>
 </div>
 
+<!-- NAV -->
 <nav>
   <div class="nav-logo" onclick="sp('home')">
     <div class="nav-logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7zm0 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg></div>
@@ -190,22 +248,18 @@ footer{background:var(--g4);color:#fff;padding:40px 32px 20px}
     <a onclick="sp('careers')" id="nav-careers">Careers</a>
     <a onclick="sp('contact')" id="nav-contact" class="nav-cta">Contact Us</a>
   </div>
-  <button class="nav-admin-btn" onclick="sp('admin')">⚙ Admin</button>
+  <button class="nav-admin-btn" onclick="sp('admin')">&#9881; Admin</button>
 </nav>
 
-<!-- HOME -->
-  
+<!-- ===== HOME ===== -->
 <div class="page active" id="page-home">
   <div class="hero">
-    
-
     <div class="hero-badge">Premium Investment Opportunity</div>
     <h1>Invest in <span>Red Sandalwood</span><br>Farm Lands</h1>
-    
     <p>Legally verified, Vaastu-compliant farmlands with exceptional long-term returns and professional management.</p>
     <div class="hero-btns">
-      <!--<button class="btn-primary" onclick="sp('projects')" >View Projects</button>
-      <button class="btn-outline" onclick="sp('contact')" id="nav-contact">Book Consultation</button> -->
+      <button class="btn-primary" onclick="sp('projects')">View Projects</button>
+      <button class="btn-outline" onclick="sp('contact')">Book Consultation</button>
     </div>
     <div class="hero-stats">
       <div class="hero-stat"><div class="hero-stat-num">15+</div><div class="hero-stat-label">Years Experience</div></div>
@@ -215,140 +269,99 @@ footer{background:var(--g4);color:#fff;padding:40px 32px 20px}
     </div>
   </div>
 
-  <!-- DUMMY IMAGES ROW -->
+  <!-- DUMMY IMAGE STRIP -->
   <div class="dummy-images-row">
     <div class="dummy-img">
-      <img src="main gate.png" width="400" height="260">
-        <rect width="400" height="260" fill="#b8d4a8"/>
-        <rect x="0" y="160" width="400" height="100" fill="#8aad78"/>
-        <rect x="160" y="110" width="30" height="80" fill="#5a7a4a" rx="3"/>
-        <ellipse cx="175" cy="95" rx="45" ry="55" fill="#4a8a3a"/>
-        <ellipse cx="175" cy="78" rx="32" ry="42" fill="#3a7030"/>
-        <rect x="60" y="130" width="25" height="60" fill="#5a7a4a" rx="3"/>
-        <ellipse cx="72" cy="115" rx="35" ry="42" fill="#4a8a3a"/>
-        <rect x="290" y="125" width="25" height="65" fill="#5a7a4a" rx="3"/>
-        <ellipse cx="302" cy="110" rx="35" ry="42" fill="#4a8a3a"/>
-        <rect x="0" y="175" width="400" height="2" fill="#6a9a5a" opacity=".5"/>
-        <rect x="0" y="195" width="400" height="2" fill="#6a9a5a" opacity=".4"/>
-        <rect x="0" y="215" width="400" height="2" fill="#6a9a5a" opacity=".3"/>
-      </svg>
-      <div class="img-caption">🌿 Farmland View </div>
+      <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="260" fill="#b8d4a8"/><rect x="0" y="160" width="400" height="100" fill="#8aad78"/><rect x="160" y="110" width="30" height="80" fill="#5a7a4a" rx="3"/><ellipse cx="175" cy="95" rx="45" ry="55" fill="#4a8a3a"/><ellipse cx="175" cy="78" rx="32" ry="42" fill="#3a7030"/><rect x="60" y="130" width="25" height="60" fill="#5a7a4a" rx="3"/><ellipse cx="72" cy="115" rx="35" ry="42" fill="#4a8a3a"/><rect x="290" y="125" width="25" height="65" fill="#5a7a4a" rx="3"/><ellipse cx="302" cy="110" rx="35" ry="42" fill="#4a8a3a"/></svg>
+      <div class="img-caption">🌿 Farmland View — Replace with your photo</div>
     </div>
     <div class="dummy-img">
-      <img src="main gate.png" width="400" height="260">
-        <rect width="400" height="260" fill="#d4e8c0"/>
-        <rect x="0" y="180" width="400" height="80" fill="#a0c480"/>
-        <rect x="50" y="100" width="8" height="130" fill="#5a7a4a"/>
-        <rect x="58" y="100" width="2" height="130" fill="#4a6a3a"/>
-        <rect x="130" y="90" width="8" height="140" fill="#5a7a4a"/>
-        <rect x="210" y="95" width="8" height="135" fill="#5a7a4a"/>
-        <rect x="290" y="88" width="8" height="142" fill="#5a7a4a"/>
-        <rect x="350" y="100" width="8" height="130" fill="#5a7a4a"/>
-        <ellipse cx="54" cy="95" rx="28" ry="32" fill="#3a7030"/>
-        <ellipse cx="128" cy="85" rx="28" ry="32" fill="#4a8a3a"/>
-        <ellipse cx="214" cy="90" rx="26" ry="30" fill="#3a7030"/>
-        <ellipse cx="294" cy="83" rx="28" ry="32" fill="#4a8a3a"/>
-        <ellipse cx="354" cy="95" rx="25" ry="28" fill="#3a7030"/>
-        <rect x="30" y="210" width="280" height="3" fill="#8ab870" opacity=".6"/>
-      </svg>
-      <div class="img-caption">🌳 Red Sandalwood Grove </div>
+      <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="260" fill="#d4e8c0"/><rect x="0" y="180" width="400" height="80" fill="#a0c480"/><rect x="50" y="100" width="8" height="130" fill="#5a7a4a"/><rect x="130" y="90" width="8" height="140" fill="#5a7a4a"/><rect x="210" y="95" width="8" height="135" fill="#5a7a4a"/><rect x="290" y="88" width="8" height="142" fill="#5a7a4a"/><rect x="350" y="100" width="8" height="130" fill="#5a7a4a"/><ellipse cx="54" cy="95" rx="28" ry="32" fill="#3a7030"/><ellipse cx="134" cy="85" rx="28" ry="32" fill="#4a8a3a"/><ellipse cx="214" cy="90" rx="26" ry="30" fill="#3a7030"/><ellipse cx="294" cy="83" rx="28" ry="32" fill="#4a8a3a"/><ellipse cx="354" cy="95" rx="25" ry="28" fill="#3a7030"/></svg>
+      <div class="img-caption">🌳 Red Sandalwood Grove — Replace with your photo</div>
     </div>
     <div class="dummy-img">
-      <img src="main gate.png" width="400" height="260">
-        <rect width="400" height="260" fill="#cce0b8"/>
-        <rect x="0" y="150" width="400" height="110" fill="#90c070"/>
-        <rect x="100" y="80" width="200" height="120" fill="#f0e8d8" rx="4"/>
-        <rect x="110" y="90" width="180" height="80" fill="#e0d8c8" rx="2"/>
-        <rect x="150" y="160" width="100" height="40" fill="#d0c8b8"/>
-        <rect x="170" y="170" width="60" height="30" fill="#b0a898"/>
-        <rect x="120" y="100" width="50" height="55" fill="#d8d0c0" rx="2"/>
-        <rect x="230" y="100" width="50" height="55" fill="#d8d0c0" rx="2"/>
-        <rect x="190" y="105" width="20" height="20" fill="#a0c0e0" rx="2"/>
-        <rect x="215" y="105" width="20" height="20" fill="#a0c0e0" rx="2"/>
-        <rect x="0" y="160" width="90" height="100" fill="#78a858" opacity=".5"/>
-        <rect x="310" y="155" width="90" height="105" fill="#78a858" opacity=".5"/>
-      </svg>
-      <div class="img-caption">🏠 Project Site Office </div>
+      <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="260" fill="#cce0b8"/><rect x="0" y="150" width="400" height="110" fill="#90c070"/><rect x="100" y="80" width="200" height="120" fill="#f0e8d8" rx="4"/><rect x="110" y="90" width="180" height="80" fill="#e0d8c8" rx="2"/><rect x="150" y="160" width="100" height="40" fill="#d0c8b8"/><rect x="120" y="100" width="50" height="55" fill="#d8d0c0" rx="2"/><rect x="230" y="100" width="50" height="55" fill="#d8d0c0" rx="2"/><rect x="190" y="105" width="20" height="20" fill="#a0c0e0" rx="2"/></svg>
+      <div class="img-caption">🏠 Project Site Office — Replace with your photo</div>
     </div>
   </div>
 
+  <!-- FEATURES -->
   <div class="section">
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px">
-      <div style="background:#fff;border-radius:12px;padding:20px;border:1px solid var(--bd);box-shadow:var(--sh)"><div style="font-size:26px;margin-bottom:8px">🌿</div><h3 style="font-size:14px;font-weight:700;color:var(--g4);margin-bottom:5px">Red Sandalwood Farming</h3><p style="font-size:12px;color:var(--mid);line-height:1.6">Expert-managed plantations for sustainable growth and long-term profits.</p></div>
-      <div style="background:#fff;border-radius:12px;padding:20px;border:1px solid var(--bd);box-shadow:var(--sh)"><div style="font-size:26px;margin-bottom:8px">📈</div><h3 style="font-size:14px;font-weight:700;color:var(--g4);margin-bottom:5px">High-Value Investment</h3><p style="font-size:12px;color:var(--mid);line-height:1.6">One of the most valuable trees globally with exceptional ROI.</p></div>
-      <div style="background:#fff;border-radius:12px;padding:20px;border:1px solid var(--bd);box-shadow:var(--sh)"><div style="font-size:26px;margin-bottom:8px">📜</div><h3 style="font-size:14px;font-weight:700;color:var(--g4);margin-bottom:5px">Legally Verified</h3><p style="font-size:12px;color:var(--mid);line-height:1.6">All plots with clear titles and legal verification for smooth ownership.</p></div>
-      <div style="background:#fff;border-radius:12px;padding:20px;border:1px solid var(--bd);box-shadow:var(--sh)"><div style="font-size:26px;margin-bottom:8px">☀️</div><h3 style="font-size:14px;font-weight:700;color:var(--g4);margin-bottom:5px">Eco-Friendly</h3><p style="font-size:12px;color:var(--mid);line-height:1.6">Drip irrigation and solar-powered sustainable farms.</p></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px">
+      <div style="background:#fff;border-radius:14px;padding:24px;border:1px solid var(--bd);box-shadow:var(--sh)"><div style="font-size:28px;margin-bottom:10px">🌿</div><h3 style="font-size:15px;font-weight:700;color:var(--g4);margin-bottom:6px">Red Sandalwood Farming</h3><p style="font-size:13px;color:var(--mid);line-height:1.6">Expert-managed plantations ensuring sustainable growth and long-term profits.</p></div>
+      <div style="background:#fff;border-radius:14px;padding:24px;border:1px solid var(--bd);box-shadow:var(--sh)"><div style="font-size:28px;margin-bottom:10px">📈</div><h3 style="font-size:15px;font-weight:700;color:var(--g4);margin-bottom:6px">High-Value Investment</h3><p style="font-size:13px;color:var(--mid);line-height:1.6">Red Sandalwood is one of the most valuable trees globally with exceptional ROI.</p></div>
+      <div style="background:#fff;border-radius:14px;padding:24px;border:1px solid var(--bd);box-shadow:var(--sh)"><div style="font-size:28px;margin-bottom:10px">📜</div><h3 style="font-size:15px;font-weight:700;color:var(--g4);margin-bottom:6px">Legally Verified</h3><p style="font-size:13px;color:var(--mid);line-height:1.6">All plots with clear titles and legal verification for smooth ownership transfer.</p></div>
+      <div style="background:#fff;border-radius:14px;padding:24px;border:1px solid var(--bd);box-shadow:var(--sh)"><div style="font-size:28px;margin-bottom:10px">☀️</div><h3 style="font-size:15px;font-weight:700;color:var(--g4);margin-bottom:6px">Eco-Friendly</h3><p style="font-size:13px;color:var(--mid);line-height:1.6">Drip irrigation and solar-powered sustainable farming practices.</p></div>
     </div>
   </div>
 
-  <div style="background:var(--g4);color:#fff;padding:48px 32px;text-align:center">
-    <div style="max-width:700px;margin:0 auto">
-      <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;opacity:.7;margin-bottom:7px">Investment Plans</div>
-      <h2 style="font-family:'Playfair Display',serif;font-size:30px;margin-bottom:6px">Choose Your Plot Size</h2>
-      <p style="font-size:13px;opacity:.7;margin-bottom:20px">Current rate: <span id="home-rate-display">₹702 per Sq.Yard | ₹28L per Acre</span></p>
+  <!-- INVESTMENT TABLE -->
+  <div style="background:var(--g4);color:#fff;padding:56px 32px;text-align:center">
+    <div style="max-width:720px;margin:0 auto">
+      <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;opacity:.7;margin-bottom:8px">Investment Plans</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:34px;margin-bottom:6px">Choose Your Plot Size</h2>
+      <p style="font-size:14px;opacity:.7;margin-bottom:24px">Current rate: <span id="home-rate-display">₹579 per Sq.Yard | ₹28L per Acre</span></p>
       <div style="overflow-x:auto">
-      <table class="inv-table" style="color:var(--dk);min-width:500px">
-        <tr><th>Plot Size</th><th>25 Cents</th><th>½ Acre (20 Guntas)</th><th>1 Acre (40 Guntas)</th></tr>
-        <tr><td>Sq. Yards</td><td>1,210</td><td>2,420</td><td>4,840</td></tr>
-        <tr><td>No. of Plants</td><td>100</td><td>200</td><td>400</td></tr>
-        <tr><td>Investment</td><td class="hl" id="inv-25c">₹7 Lakhs</td><td class="hl" id="inv-half">₹14 Lakhs</td><td class="hl" id="inv-1a">₹28Lakhs</td></tr>
-        <tr><td>Rate/Sq.Yd</td><td class="hl" id="inv-sqyd">₹702</td><td class="hl" id="inv-sqyd1">₹702</td><td class="hl" id="inv-sqyd2">₹702</td></tr>
-        <tr><td>Rate/Acre</td><td class="hl" id="inv-acre">₹28Lakhs</td><td class="hl" id="inv-acre1">₹28Lakhs</td><td class="hl" id="inv-acre2">₹28Lakhs</td></tr>
-      </table>
+        <table class="inv-table" style="color:var(--dk);min-width:480px">
+          <tr><th>Plot Size</th><th>25 Cents</th><th>½ Acre</th><th>1 Acre</th></tr>
+          <tr><td>Sq. Yards</td><td>1,210</td><td>2,420</td><td>4,840</td></tr>
+          <tr><td>No. of Plants</td><td>100</td><td>200</td><td>400</td></tr>
+          <tr><td>Rate / Sq.Yd</td><td class="hl" id="inv-sqyd">₹579</td><td class="hl">₹579</td><td class="hl">₹579</td></tr>
+          <tr><td>Rate / Acre</td><td class="hl" id="inv-acre">₹28 Lakhs</td><td class="hl">₹28 Lakhs</td><td class="hl">₹28 Lakhs</td></tr>
+          <tr><td>Total Investment</td><td class="hl" id="inv-25c">₹7 Lakhs</td><td class="hl" id="inv-half">₹14 Lakhs</td><td class="hl" id="inv-1a">₹28 Lakhs</td></tr>
+        </table>
       </div>
-      <button class="btn-primary" style="margin-top:22px" onclick="sp('contact')">Book Your Plot Today</button>
+      <button class="btn-primary" style="margin-top:24px" onclick="sp('contact')">Book Your Plot Today</button>
     </div>
   </div>
 </div>
 
-<!-- ABOUT -->
+<!-- ===== ABOUT ===== -->
 <div class="page" id="page-about">
   <div class="section">
-    <div style="margin-bottom:36px"><div class="section-tag">Our Story</div><h2 class="section-title">15 Years of Farmland Excellence</h2><div class="divider"></div><p class="section-sub">At Paritala Farm Land, we offer a unique and secure investment in premium Red Sandalwood farm lands.</p></div>
+    <div style="margin-bottom:40px"><div class="section-tag">Our Story</div><h2 class="section-title">15 Years of Farmland Excellence</h2><div class="divider"></div><p class="section-sub">At Paritala Farm Land, we offer a unique and secure investment in premium Red Sandalwood farm lands.</p></div>
     <div class="about-grid">
       <div>
-        <p style="color:var(--mid);line-height:1.8;margin-bottom:18px">Our meticulously cultivated plantations ensure long-term sustainability and high returns on investment. With years of expertise in farmland management, we provide investors with hassle-free ownership and professional support.</p>
-        <p style="color:var(--mid);line-height:1.8;margin-bottom:22px">Based in Vijayawada, Andhra Pradesh, we serve investors across India seeking secure agricultural investments.</p>
+        <p style="color:var(--mid);line-height:1.8;margin-bottom:20px">Our meticulously cultivated plantations ensure long-term sustainability and high returns on investment. With years of expertise in farmland management, we provide investors with hassle-free ownership and professional support.</p>
+        <p style="color:var(--mid);line-height:1.8;margin-bottom:24px">Based in Vijayawada, Andhra Pradesh, we serve investors across India who seek secure, government-backed agricultural investments.</p>
         <div class="feature"><div class="feature-icon">✅</div><div class="feature-text"><h4>On-time Land Allotment</h4><p>Guaranteed spot registration with immediate documentation</p></div></div>
         <div class="feature"><div class="feature-icon">📞</div><div class="feature-text"><h4>24/7 Customer Support</h4><p>Always available to assist your investment journey</p></div></div>
         <div class="feature"><div class="feature-icon">🔬</div><div class="feature-text"><h4>Expertly Managed Farmlands</h4><p>Professional agronomists manage every plantation</p></div></div>
-        <div class="feature"><div class="feature-icon">💧</div><div class="feature-text"><h4>Drip Irrigation System</h4><p>Water-efficient tech ensuring healthy tree growth</p></div></div>
+        <div class="feature"><div class="feature-icon">💧</div><div class="feature-text"><h4>Drip Irrigation System</h4><p>Water-efficient technology ensuring healthy tree growth</p></div></div>
       </div>
       <div class="about-img">
-        <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg"><rect x="80" y="100" width="40" height="60" rx="4" fill="#2d6a2d" opacity=".3"/><ellipse cx="100" cy="90" rx="40" ry="50" fill="#3a8c3a" opacity=".4"/><ellipse cx="100" cy="75" rx="28" ry="38" fill="#2d6a2d" opacity=".5"/><ellipse cx="60" cy="110" rx="25" ry="35" fill="#3a8c3a" opacity=".3"/><ellipse cx="140" cy="105" rx="22" ry="30" fill="#3a8c3a" opacity=".3"/><rect x="55" y="130" width="20" height="30" rx="3" fill="#2d6a2d" opacity=".25"/><rect x="128" y="125" width="20" height="35" rx="3" fill="#2d6a2d" opacity=".25"/></svg>
-        <div style="position:absolute;bottom:16px;right:16px;background:var(--g);color:#fff;padding:10px 14px;border-radius:10px;text-align:center"><div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700">15</div><div style="font-size:10px;opacity:.8">Years</div></div>
+        <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg"><rect x="80" y="100" width="40" height="60" rx="4" fill="#2d6a2d" opacity=".3"/><ellipse cx="100" cy="90" rx="40" ry="50" fill="#3a8c3a" opacity=".4"/><ellipse cx="100" cy="75" rx="28" ry="38" fill="#2d6a2d" opacity=".5"/><ellipse cx="60" cy="110" rx="25" ry="35" fill="#3a8c3a" opacity=".3"/><ellipse cx="140" cy="105" rx="22" ry="30" fill="#3a8c3a" opacity=".3"/></svg>
+        <div style="position:absolute;bottom:20px;right:20px;background:var(--g);color:#fff;padding:12px 16px;border-radius:10px;text-align:center"><div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700">15</div><div style="font-size:11px;opacity:.8">Years</div></div>
       </div>
     </div>
   </div>
-  <div style="background:var(--g3);padding:40px 32px">
-    <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;text-align:center">
-      <div><div style="font-family:'Playfair Display',serif;font-size:38px;font-weight:700;color:var(--g)">45+</div><div style="color:var(--mid);font-size:13px">Acres Managed</div></div>
-      <div><div style="font-family:'Playfair Display',serif;font-size:38px;font-weight:700;color:var(--g)">147</div><div style="color:var(--mid);font-size:13px">Total Plots</div></div>
-      <div><div style="font-family:'Playfair Display',serif;font-size:38px;font-weight:700;color:var(--g)">100%</div><div style="color:var(--mid);font-size:13px">Legal Clearance</div></div>
-      <div><div style="font-family:'Playfair Display',serif;font-size:38px;font-weight:700;color:var(--g)">500+</div><div style="color:var(--mid);font-size:13px">Happy Investors</div></div>
+  <div style="background:var(--g3);padding:48px 32px">
+    <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;text-align:center">
+      <div><div style="font-family:'Playfair Display',serif;font-size:40px;font-weight:700;color:var(--g)">45+</div><div style="color:var(--mid);font-size:14px">Acres Managed</div></div>
+      <div><div style="font-family:'Playfair Display',serif;font-size:40px;font-weight:700;color:var(--g)">147</div><div style="color:var(--mid);font-size:14px">Total Plots</div></div>
+      <div><div style="font-family:'Playfair Display',serif;font-size:40px;font-weight:700;color:var(--g)">100%</div><div style="color:var(--mid);font-size:14px">Legal Clearance</div></div>
+      <div><div style="font-family:'Playfair Display',serif;font-size:40px;font-weight:700;color:var(--g)">500+</div><div style="color:var(--mid);font-size:14px">Happy Investors</div></div>
     </div>
   </div>
 </div>
 
-<!-- PROJECTS -->
+<!-- ===== PROJECTS ===== -->
 <div class="page" id="page-projects">
   <div class="section">
-    <div style="margin-bottom:36px"><div class="section-tag">Our Projects</div><h2 class="section-title">Active Farmland Ventures</h2><div class="divider"></div><p class="section-sub">Explore our premium Red Sandalwood farmland projects with available plots.</p></div>
-    <div class="projects-grid" id="projects-render"></div>
+    <div style="margin-bottom:40px"><div class="section-tag">Our Projects</div><h2 class="section-title">Active Farmland Ventures</h2><div class="divider"></div><p class="section-sub">Explore our premium Red Sandalwood farmland projects with available plots.</p></div>
+    <div class="projects-grid" id="projects-render"><div class="no-data">Loading projects...</div></div>
   </div>
 </div>
 
-<!-- CAREERS -->
+<!-- ===== CAREERS ===== -->
 <div class="page" id="page-careers">
   <div class="section">
-    <div style="margin-bottom:36px"><div class="section-tag">Join Our Team</div><h2 class="section-title">Career Opportunities</h2><div class="divider"></div><p class="section-sub">Be part of Andhra Pradesh's leading farmland investment company and grow with us.</p></div>
-    <div class="career-grid" id="jobs-render"></div>
-    <div id="no-jobs" class="no-data hidden"><div style="font-size:36px;margin-bottom:8px">📭</div><div>No open positions right now. Check back soon!</div></div>
-  </div>
-
-  <div class="section" style="padding-top:0" id="apply-section" style="display:none">
-    <div class="apply-form-wrap">
-      <h3 style="font-family:'Playfair Display',serif;font-size:20px;color:var(--g4);margin-bottom:16px">Apply for: <span id="apply-job-title">—</span></h3>
+    <div style="margin-bottom:40px"><div class="section-tag">Join Our Team</div><h2 class="section-title">Career Opportunities</h2><div class="divider"></div><p class="section-sub">Be part of Andhra Pradesh's leading farmland investment company.</p></div>
+    <div class="career-grid" id="jobs-render"><div class="no-data">Loading jobs...</div></div>
+    <div class="apply-wrap" id="apply-wrap">
+      <h3>Apply for: <span id="apply-job-title">—</span></h3>
+      <input type="hidden" id="ap-job-id"/>
+      <input type="hidden" id="ap-job-title-val"/>
       <div class="form-row">
         <div class="form-group"><label>Full Name</label><input type="text" id="ap-name" placeholder="Your full name"/></div>
         <div class="form-group"><label>Mobile</label><input type="tel" id="ap-mobile" placeholder="+91 XXXXX XXXXX"/></div>
@@ -356,31 +369,27 @@ footer{background:var(--g4);color:#fff;padding:40px 32px 20px}
       <div class="form-group"><label>Email</label><input type="email" id="ap-email" placeholder="your@email.com"/></div>
       <div class="form-group"><label>Experience</label><input type="text" id="ap-exp" placeholder="e.g. 3 years in sales"/></div>
       <div class="form-group"><label>Why do you want to join?</label><textarea id="ap-why" placeholder="Tell us briefly..."></textarea></div>
-      <input type="hidden" id="ap-job-id"/>
       <div style="display:flex;gap:10px">
-        <button class="submit-btn" style="flex:1" onclick="submitApplication()">Submit Application</button>
-        <button style="flex:0;background:#fff;color:var(--mid);border:1.5px solid var(--bd);padding:12px 18px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif" onclick="closeApply()">Cancel</button>
+        <button class="submit-btn" id="apply-submit-btn" onclick="submitApplication()">Submit Application</button>
+        <button onclick="closeApply()" style="flex:0 0 auto;background:#fff;color:var(--mid);border:1.5px solid var(--bd);padding:13px 20px;border-radius:8px;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
       </div>
-      <div id="apply-success" style="display:none;margin-top:12px;background:#fff;border:1px solid var(--g);color:var(--g4);padding:11px;border-radius:8px;font-size:13px">✅ Application submitted! We'll contact you soon.</div>
+      <div id="apply-success" style="display:none;margin-top:12px;background:var(--g3);border:1px solid var(--g);color:var(--g4);padding:12px;border-radius:8px;font-size:14px">✅ Application submitted! We'll contact you soon.</div>
     </div>
   </div>
 </div>
 
-<!-- CONTACT -->
+<!-- ===== CONTACT ===== -->
 <div class="page" id="page-contact">
   <div class="section">
-    <div style="margin-bottom:36px"><div class="section-tag">Get in Touch</div><h2 class="section-title">Book Your Appointment</h2><div class="divider"></div></div>
+    <div style="margin-bottom:40px"><div class="section-tag">Get in Touch</div><h2 class="section-title">Book Your Appointment</h2><div class="divider"></div></div>
     <div class="contact-wrap">
-      <div class="contact-info">
-        <h3>Invest in Red Sandalwood Farm Land Today!</h3>
-        <p style="color:var(--mid);line-height:1.7;margin-bottom:18px;font-size:14px">Secure your future with premium Red Sandalwood farmlands. Clear titles, assured maintenance, and high returns.</p>
-        <div style="margin-bottom:20px">
-          <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--g);margin-bottom:10px">Our Offices</div>
-          <div id="contact-branches-render"></div>
-        </div>
-        <div style="padding:14px;background:var(--g3);border-radius:10px;border:1px solid rgba(45,106,45,.2)">
-          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--g);margin-bottom:3px">Current Rate</div>
-          <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--g4)" id="contact-price-display">₹702 per Sq.Yard</div>
+      <div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:26px;color:var(--g4);margin-bottom:14px">Invest in Red Sandalwood Farm Land Today!</h3>
+        <p style="color:var(--mid);line-height:1.7;margin-bottom:20px;font-size:15px">Secure your future with premium Red Sandalwood farmlands. Clear titles, assured maintenance, and high returns.</p>
+        <div id="contact-branches-render"></div>
+        <div style="margin-top:16px;padding:16px;background:var(--g3);border-radius:10px;border:1px solid rgba(45,106,45,.2)">
+          <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--g);margin-bottom:4px">Current Rate</div>
+          <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--g4)" id="contact-price-display">₹579 per Sq.Yard</div>
         </div>
       </div>
       <div class="contact-form">
@@ -393,33 +402,37 @@ footer{background:var(--g4);color:#fff;padding:40px 32px 20px}
           <select id="cf-service"><option value="">Select a service...</option><option>Red Sandalwood Farming</option><option>25 Cents Plot</option><option>½ Acre Plot</option><option>1 Acre Plot</option><option>Project Site Visit</option><option>General Enquiry</option></select>
         </div>
         <div class="form-group"><label>Message</label><textarea id="cf-message" placeholder="Tell us about your investment goals..."></textarea></div>
-        <button class="submit-btn" onclick="submitContact()">Send Message & Book Appointment</button>
-        <div id="contact-success" style="display:none;margin-top:10px;background:var(--g3);border:1px solid var(--g);color:var(--g4);padding:11px;border-radius:8px;font-size:13px">✅ Thank you! We'll contact you within 24 hours.</div>
+        <button class="submit-btn" id="contact-submit-btn" onclick="submitContact()">Send Message &amp; Book Appointment</button>
+        <div id="contact-success" style="display:none;margin-top:12px;background:var(--g3);border:1px solid var(--g);color:var(--g4);padding:12px;border-radius:8px;font-size:14px">✅ Thank you! We'll contact you within 24 hours.</div>
       </div>
     </div>
   </div>
   <div class="section" style="padding-top:0">
     <div class="section-tag">Office Locations</div>
-    <h2 class="section-title" style="font-size:26px">Find Us Near You</h2>
+    <h2 class="section-title" style="font-size:28px">Find Us Near You</h2>
     <div class="locations-grid" id="locations-render"></div>
   </div>
 </div>
 
-<!-- ADMIN -->
+<!-- ===== ADMIN ===== -->
 <div class="page" id="page-admin">
   <div id="admin-login-view" class="admin-login">
     <div class="admin-login-card">
       <h2>Admin Panel</h2>
       <p>Sign in to manage your website</p>
       <div class="aig"><label>Username</label><input type="text" id="login-user" placeholder="admin"/></div>
-      <div class="aig"><label>Password</label><input type="password" id="login-pass" placeholder="••••••••"/></div>
-      <div id="login-error" style="color:#c0392b;font-size:12px;margin-bottom:10px;display:none">Invalid credentials</div>
-      <button class="submit-btn" onclick="adminLogin()">Sign In</button>
+      <div class="aig"><label>Password</label><input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')adminLogin()"/></div>
+      <div id="login-error" style="color:#c0392b;font-size:13px;margin-bottom:12px;display:none">Invalid credentials. Try again.</div>
+      <button class="submit-btn" id="login-btn" onclick="adminLogin()">Sign In</button>
+      <p style="font-size:11px;color:var(--mid);margin-top:12px;text-align:center">Default: admin / admin123</p>
     </div>
   </div>
   <div id="admin-panel-view" style="display:none">
     <div class="admin-wrap">
-      <div class="admin-header"><h2>Admin Panel</h2><button class="admin-del-btn" onclick="adminLogout()">Sign Out</button></div>
+      <div class="admin-header">
+        <h2>Admin Panel</h2>
+        <button class="admin-del-btn" onclick="adminLogout()">Sign Out</button>
+      </div>
       <div class="admin-tabs">
         <button class="admin-tab active" onclick="switchTab('submissions',this)">📋 Submissions</button>
         <button class="admin-tab" onclick="switchTab('projects',this)">🏗️ Projects</button>
@@ -429,35 +442,35 @@ footer{background:var(--g4);color:#fff;padding:40px 32px 20px}
       </div>
 
       <div id="tab-submissions">
-        <div class="admin-card"><h3>Contact Form Submissions</h3><div id="submissions-content"></div></div>
+        <div class="admin-card"><h3>Contact Form Submissions</h3><div id="submissions-content"><div class="no-data">Loading...</div></div></div>
       </div>
 
       <div id="tab-projects" style="display:none">
-        <div class="admin-card"><h3>Manage Projects</h3><div id="projects-admin-list"></div><button class="admin-save-btn" style="margin-top:10px" onclick="openModal('project')">+ Add New Project</button></div>
+        <div class="admin-card"><h3>Manage Projects</h3><div id="projects-admin-list"><div class="no-data">Loading...</div></div><button class="admin-save-btn" style="margin-top:12px" onclick="openModal('project',null)">+ Add New Project</button></div>
       </div>
 
       <div id="tab-branches" style="display:none">
-        <div class="admin-card"><h3>Office / Branch Locations</h3><div id="branches-admin-list"></div><button class="admin-save-btn" style="margin-top:10px" onclick="openModal('branch')">+ Add New Branch</button></div>
+        <div class="admin-card"><h3>Office / Branch Locations</h3><div id="branches-admin-list"><div class="no-data">Loading...</div></div><button class="admin-save-btn" style="margin-top:12px" onclick="openModal('branch',null)">+ Add New Branch</button></div>
       </div>
 
       <div id="tab-careers" style="display:none">
-        <div class="admin-card"><h3>Job Openings</h3><div id="jobs-admin-list"></div><button class="admin-save-btn" style="margin-top:10px" onclick="openModal('job')">+ Add New Job</button></div>
-        <div class="admin-card"><h3>Job Applications</h3><div id="applications-content"></div></div>
+        <div class="admin-card"><h3>Job Openings</h3><div id="jobs-admin-list"><div class="no-data">Loading...</div></div><button class="admin-save-btn" style="margin-top:12px" onclick="openModal('job',null)">+ Add New Job</button></div>
+        <div class="admin-card"><h3>Job Applications</h3><div id="applications-content"><div class="no-data">Loading...</div></div></div>
       </div>
 
       <div id="tab-settings" style="display:none">
-        <div class="admin-card"><h3>Price Ticker</h3>
+        <div class="admin-card"><h3>Price Ticker Settings</h3>
           <div class="admin-form-row">
-            <div class="aig"><label>Price per Sq. Yard (₹)</label><input type="number" id="setting-sqyard" placeholder="702"/></div>
+            <div class="aig"><label>Price per Sq. Yard (₹)</label><input type="number" id="setting-sqyard" placeholder="579"/></div>
             <div class="aig"><label>Price per Acre (Lakhs)</label><input type="number" id="setting-acre" placeholder="28"/></div>
           </div>
-          <div class="aig"><label>Ticker Display Text</label><input type="text" id="setting-ticker" placeholder="₹702/- per Sq.Yd"/></div>
+          <div class="aig"><label>Ticker Display Text</label><input type="text" id="setting-ticker" placeholder="e.g. ₹579/- per Sq.Yd"/></div>
           <button class="admin-save-btn" onclick="saveSettings()">Save Settings</button>
         </div>
-        <div class="admin-card"><h3>Admin Credentials</h3>
+        <div class="admin-card"><h3>Change Admin Credentials</h3>
           <div class="admin-form-row">
-            <div class="aig"><label>New Username</label><input type="text" id="new-user"/></div>
-            <div class="aig"><label>New Password</label><input type="password" id="new-pass"/></div>
+            <div class="aig"><label>New Username</label><input type="text" id="new-user" placeholder="admin"/></div>
+            <div class="aig"><label>New Password</label><input type="password" id="new-pass" placeholder="••••••••"/></div>
           </div>
           <button class="admin-save-btn" onclick="saveCreds()">Update Credentials</button>
         </div>
@@ -471,22 +484,25 @@ footer{background:var(--g4);color:#fff;padding:40px 32px 20px}
   <div class="modal">
     <h3 id="modal-project-title">Add New Project</h3>
     <div class="admin-form-row">
-      <div class="aig"><label>Project Name</label><input type="text" id="m-name" placeholder="e.g. Viswasri Phase 1"/></div>
+      <div class="aig"><label>Project Name</label><input type="text" id="m-name" placeholder="e.g. Viswa Sri Phase 1"/></div>
       <div class="aig"><label>Google Maps URL</label><input type="text" id="m-loc" placeholder="https://maps.app.goo.gl/..."/></div>
     </div>
     <div class="admin-form-row">
       <div class="aig"><label>Price per Acre</label><input type="text" id="m-pacre" placeholder="28L Per Acre"/></div>
-      <div class="aig"><label>Price per Sq.Yard</label><input type="text" id="m-psqy" placeholder="702 per Sq.Yard"/></div>
+      <div class="aig"><label>Price per Sq.Yard</label><input type="text" id="m-psqy" placeholder="579 per Sq.Yard"/></div>
     </div>
     <div class="admin-form-row">
-      <div class="aig"><label>Venture Size</label><input type="text" id="m-size" placeholder="28Acres"/></div>
+      <div class="aig"><label>Venture Size</label><input type="text" id="m-size" placeholder="28 Acres"/></div>
       <div class="aig"><label>Total Plots</label><input type="number" id="m-plots" placeholder="91"/></div>
     </div>
-    <div class="aig"><label>Vacant Plot Numbers (comma/dash separated)</label><input type="text" id="m-vacancy" placeholder="5,6,14,51 or 39-49"/></div>
-    <div class="aig"><label>Description</label><textarea id="m-desc" rows="2" placeholder="Brief description..."></textarea></div>
-    <div class="aig"><label>Project Images (upload multiple)</label><input type="file" id="m-images" accept="image/*" multiple style="padding:4px"/></div>
-    <div id="m-images-preview" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"></div>
-    <div class="modal-footer"><button class="modal-cancel" onclick="closeModal('project')">Cancel</button><button class="admin-save-btn" onclick="saveProject()">Save Project</button></div>
+    <div class="aig"><label>Vacant Plot Numbers (comma or dash separated)</label><input type="text" id="m-vacancy" placeholder="5,6,14,51 or 39-49"/></div>
+    <div class="aig"><label>Description</label><textarea id="m-desc" rows="2" placeholder="Brief project description..."></textarea></div>
+    <div class="aig"><label>Upload Project Images</label><input type="file" id="m-images" accept="image/*" multiple onchange="previewImages()" style="padding:4px"/></div>
+    <div class="img-preview" id="m-img-preview"></div>
+    <div class="modal-footer">
+      <button class="modal-cancel" onclick="closeModal('project')">Cancel</button>
+      <button class="admin-save-btn" id="proj-save-btn" onclick="saveProject()">Save Project</button>
+    </div>
   </div>
 </div>
 
@@ -501,7 +517,10 @@ footer{background:var(--g4);color:#fff;padding:40px 32px 20px}
       <div class="aig"><label>Email</label><input type="text" id="b-email" placeholder="branch@example.com"/></div>
     </div>
     <div class="aig"><label>Google Maps URL (optional)</label><input type="text" id="b-map" placeholder="https://maps.app.goo.gl/..."/></div>
-    <div class="modal-footer"><button class="modal-cancel" onclick="closeModal('branch')">Cancel</button><button class="admin-save-btn" onclick="saveBranch()">Save Branch</button></div>
+    <div class="modal-footer">
+      <button class="modal-cancel" onclick="closeModal('branch')">Cancel</button>
+      <button class="admin-save-btn" id="branch-save-btn" onclick="saveBranch()">Save Branch</button>
+    </div>
   </div>
 </div>
 
@@ -518,20 +537,24 @@ footer{background:var(--g4);color:#fff;padding:40px 32px 20px}
       <div class="aig"><label>Type</label><select id="j-type"><option>Full-time</option><option>Part-time</option><option>Contract</option><option>Internship</option></select></div>
     </div>
     <div class="aig"><label>Description</label><textarea id="j-desc" rows="3" placeholder="Role responsibilities and requirements..."></textarea></div>
-    <div class="modal-footer"><button class="modal-cancel" onclick="closeModal('job')">Cancel</button><button class="admin-save-btn" onclick="saveJob()">Save Job</button></div>
+    <div class="modal-footer">
+      <button class="modal-cancel" onclick="closeModal('job')">Cancel</button>
+      <button class="admin-save-btn" id="job-save-btn" onclick="saveJob()">Save Job</button>
+    </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-grid">
     <div>
       <div class="footer-brand-name">Paritala Farm Land</div>
       <p class="footer-brand-desc">Legally approved, Vaastu-compliant Red Sandalwood farmlands designed for high returns and sustainable growth.</p>
-      <div style="margin-top:14px;font-size:12px;opacity:.7">
+      <div style="margin-top:16px;font-size:13px;opacity:.7">
         <div>📞 +91 90064 81188</div>
-        <div style="margin-top:3px">✉️ paritalasivakumar@gmail.com</div>
+        <div style="margin-top:4px">✉️ sales@paritalafarmland.com</div>
       </div>
     </div>
     <div class="footer-col">
@@ -544,251 +567,654 @@ footer{background:var(--g4);color:#fff;padding:40px 32px 20px}
     </div>
     <div class="footer-col">
       <h4>Legal</h4>
-      <a>Terms &amp; Conditions</a>
-      <a>Privacy Policy</a>
+      <a href="#">Terms &amp; Conditions</a>
+      <a href="#">Privacy Policy</a>
     </div>
   </div>
-  <div class="footer-bottom"><span>© Paritala Farm Land. All rights reserved.</span><span>Designed by Malempati Shanmukha</span></div>
+  <div class="footer-bottom">
+    <span>© Paritala Farm Land. All rights reserved.</span>
+    <span>Designed by Digitalness®</span>
+  </div>
 </footer>
 
 <script>
-var S={projects:[],submissions:[],branches:[],jobs:[],applications:[],settings:{sqyard:702,acre:28,tickerText:'₹702/- per Sq.Yd'},creds:{user:'admin',pass:'admin123'},editId:null,editType:null,loggedIn:false,applyJobId:null};
+// ── SUPABASE CONFIG ──────────────────────────────────────────────
+var SB_URL = 'https://erzogorfdorggcmrqtec.supabase.co';
+var SB_KEY = 'sb_publishable_-xs9pUYyvtCcFu6yDOnpqA_Yco0c1tD';
 
-function ld(){try{var d=localStorage.getItem('pfl2');if(d){var p=JSON.parse(d);['projects','submissions','branches','jobs','applications','settings','creds'].forEach(function(k){if(p[k]!==undefined)S[k]=p[k];});}}catch(e){}
-if(!S.projects.length){S.projects=[{id:1,name:'Viswasri - Phase 1',location:'https://maps.app.goo.gl/NSyakw3G1MPFTRZe8',priceAcre:'28L Per Acre',priceSqYard:'702 per Sq.Yard',size:'28Acres',plots:91,vacancy:'5,6,14,51,52,62,84,86,89,91',desc:'Premium Red Sandalwood farmland venture near Paritala with 91 plots.',images:[]},{id:2,name:'Viswasri - Phase 2',location:'https://maps.app.goo.gl/vjntoNJQ8dE4sScz7',priceAcre:'28L Per Acre',priceSqYard:'702 per Sq.Yard',size:'17 Acres',plots:56,vacancy:'15,16,17,18,39-49,51-56',desc:'Expanding venture with excellent connectivity and clear titles.',images:[]}];}
-if(!S.branches.length){S.branches=[{id:1,name:'Vijayawada — Head Office',addr:'D.No. 32-5-9B, 4th Floor, Tummala Haribabu Street, Moghalrajpuram, Vijayawada - 520010, AP',phone:'+91 90064 81188',email:'sales@paritalafarmland.com',map:''},{id:2,name:'Paritala — Site Office',addr:'Near Project Site, Paritala, Krishna District, Andhra Pradesh',phone:'+91 90064 81188',email:'sales@paritalafarmland.com',map:''}];}
-if(!S.jobs.length){S.jobs=[{id:1,title:'Sales Executive',dept:'Sales',loc:'Vijayawada',type:'Full-time',desc:'Drive land sales, maintain client relationships, and achieve monthly targets for Red Sandalwood farmland plots. Experience in real estate or farmland sales preferred.'},{id:2,title:'Site Manager',dept:'Operations',loc:'Paritala',type:'Full-time',desc:'Oversee daily plantation activities, coordinate with farmers, and ensure smooth site operations. Agricultural background preferred.'}];}}
-
-function sv(){try{localStorage.setItem('pfl2',JSON.stringify(S));}catch(e){}}
-
-function sp(p){
-  document.querySelectorAll('.page').forEach(function(el){el.classList.remove('active');});
-  document.getElementById('page-'+p).classList.add('active');
-  document.querySelectorAll('.nav-links a').forEach(function(el){el.classList.remove('active');});
-  var n=document.getElementById('nav-'+p);if(n)n.classList.add('active');
-  if(p==='projects')renderProjects();
-  if(p==='careers')renderJobs();
-  if(p==='contact'){renderBranchesContact();renderLocations();}
-  if(p==='admin')renderAdmin();
-  window.scrollTo(0,0);
+function sbFetch(path, opts) {
+  opts = opts || {};
+  var headers = Object.assign({
+    'apikey': SB_KEY,
+    'Authorization': 'Bearer ' + SB_KEY,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=representation'
+  }, opts.headers || {});
+  return fetch(SB_URL + '/rest/v1/' + path, Object.assign({}, opts, { headers: headers }));
 }
 
-function parsePills(str){
-  if(!str)return[];var r=[];
-  str.split(',').forEach(function(pt){pt=pt.trim();if(pt.indexOf('-')>0&&!pt.startsWith('-')){var d=pt.split('-');var s=parseInt(d[0]),e=parseInt(d[1]);if(!isNaN(s)&&!isNaN(e)){for(var i=s;i<=e;i++)r.push(String(i));}else r.push(pt);}else if(pt)r.push(pt);});
+async function dbGet(table, query) {
+  var q = query ? '?' + query : '';
+  var r = await sbFetch(table + q);
+  if (!r.ok) throw new Error('GET ' + table + ' failed: ' + r.status);
+  return r.json();
+}
+
+async function dbInsert(table, data) {
+  var r = await sbFetch(table, { method: 'POST', body: JSON.stringify(data) });
+  if (!r.ok) { var t = await r.text(); throw new Error('INSERT failed: ' + t); }
+  return r.json();
+}
+
+async function dbUpdate(table, id, data) {
+  var r = await sbFetch(table + '?id=eq.' + id, { method: 'PATCH', body: JSON.stringify(data) });
+  if (!r.ok) { var t = await r.text(); throw new Error('UPDATE failed: ' + t); }
+  return r.json();
+}
+
+async function dbDelete(table, id) {
+  var r = await sbFetch(table + '?id=eq.' + id, { method: 'DELETE' });
+  if (!r.ok) throw new Error('DELETE failed: ' + r.status);
+}
+
+// ── STATE ─────────────────────────────────────────────────────────
+var ST = {
+  settings: { sqyard: 579, acre: 28, ticker_text: '₹579/- per Sq.Yd' },
+  loggedIn: false,
+  editId: null,
+  editType: null,
+  pendingImages: [],   // base64 for new uploads
+  existingImages: [],  // already-saved base64 from DB
+  galleryIdx: {}
+};
+
+// ── BOOT ──────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', async function () {
+  try {
+    var rows = await dbGet('settings', 'id=eq.1');
+    if (rows && rows.length) ST.settings = rows[0];
+    updateTicker();
+  } catch(e) { console.warn('Settings load failed', e); }
+  hideLoader();
+  renderProjects();
+  renderBranchesContact();
+  renderLocations();
+});
+
+function hideLoader() {
+  document.getElementById('page-loader').style.display = 'none';
+}
+function showLoader() {
+  document.getElementById('page-loader').style.display = 'flex';
+}
+
+// ── NAVIGATION ───────────────────────────────────────────────────
+function sp(p) {
+  document.querySelectorAll('.page').forEach(function(el) { el.classList.remove('active'); });
+  document.getElementById('page-' + p).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(function(el) { el.classList.remove('active'); });
+  var n = document.getElementById('nav-' + p);
+  if (n) n.classList.add('active');
+  if (p === 'projects') renderProjects();
+  if (p === 'careers') renderJobs();
+  if (p === 'contact') { renderBranchesContact(); renderLocations(); }
+  if (p === 'admin') renderAdmin();
+  window.scrollTo(0, 0);
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function parsePills(str) {
+  if (!str) return [];
+  var r = [];
+  str.split(',').forEach(function(pt) {
+    pt = pt.trim();
+    if (pt.indexOf('-') > 0) {
+      var d = pt.split('-');
+      var s = parseInt(d[0]), e = parseInt(d[1]);
+      if (!isNaN(s) && !isNaN(e)) { for (var i = s; i <= e; i++) r.push(String(i)); }
+      else r.push(pt);
+    } else if (pt) r.push(pt);
+  });
   return r;
 }
 
-function renderProjects(){
-  var c=document.getElementById('projects-render');c.innerHTML='';
-  S.projects.forEach(function(p){
-    var pills=parsePills(p.vacancy);
-    var pillsHtml=pills.map(function(n){return'<span class="vacancy-pill">Plot '+esc(n)+'</span>';}).join('');
-    var imgs=p.images||[];
-    var galleryInner='';
-    if(imgs.length>0){
-      galleryInner=imgs.map(function(src){return'<div class="proj-gallery-img"><img src="'+src+'" style="width:100%;height:100%;object-fit:cover" alt="project"/></div>';}).join('');
-    }else{
-      galleryInner='<div class="proj-gallery-placeholder"><div style="font-size:32px">🌿</div><div>No images uploaded yet</div></div>';
+function showToast(msg, isErr) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (isErr ? ' error' : '');
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 3500);
+}
+
+function updateTicker() {
+  var s = ST.settings;
+  document.getElementById('ticker-price').textContent = s.ticker_text || '₹' + s.sqyard + '/- per Sq.Yd';
+  document.getElementById('contact-price-display').textContent = '₹' + s.sqyard + ' per Sq.Yard';
+  document.getElementById('home-rate-display').textContent = '₹' + s.sqyard + ' per Sq.Yard | ₹' + s.acre + 'L per Acre';
+  document.getElementById('inv-sqyd').textContent = '₹' + s.sqyard;
+  document.getElementById('inv-acre').textContent = '₹' + s.acre + ' Lakhs';
+  document.getElementById('inv-25c').textContent = '₹' + (Math.round(s.sqyard * 1210 / 100000 * 10) / 10) + ' Lakhs';
+  document.getElementById('inv-half').textContent = '₹' + (Math.round(s.sqyard * 2420 / 100000 * 10) / 10) + ' Lakhs';
+  document.getElementById('inv-1a').textContent = '₹' + s.acre + ' Lakhs';
+}
+
+// ── PROJECTS (PUBLIC) ─────────────────────────────────────────────
+async function renderProjects() {
+  var c = document.getElementById('projects-render');
+  c.innerHTML = '<div class="no-data">Loading projects...</div>';
+  try {
+    var projects = await dbGet('projects', 'order=created_at.asc');
+    c.innerHTML = '';
+    if (!projects.length) { c.innerHTML = '<div class="no-data">No projects available yet.</div>'; return; }
+    projects.forEach(function(p) { c.appendChild(buildProjectCard(p)); });
+  } catch(e) { c.innerHTML = '<div class="no-data">Could not load projects.</div>'; console.error(e); }
+}
+
+function buildProjectCard(p) {
+  var pills = parsePills(p.vacancy);
+  var pillsHtml = pills.map(function(n) { return '<span class="vacancy-pill">Plot ' + esc(n) + '</span>'; }).join('');
+  var imgs = p.images || [];
+  var galleryInner = '';
+  if (imgs.length > 0) {
+    galleryInner = imgs.map(function(src) {
+      return '<img class="proj-gallery-img" src="' + src + '" alt="project"/>';
+    }).join('');
+  } else {
+    galleryInner = '<div class="proj-gallery-placeholder"><div style="font-size:36px">🌿</div><div>No images uploaded yet</div></div>';
+  }
+  var dotsHtml = imgs.length > 1 ? imgs.map(function(s, i) {
+    return '<div class="proj-gallery-dot' + (i === 0 ? ' active' : '') + '" onclick="galleryDot(' + p.id + ',' + i + ')"></div>';
+  }).join('') : '';
+  var arrowsHtml = imgs.length > 1
+    ? '<button class="proj-gallery-arrow left" onclick="galleryNav(' + p.id + ',-1)">&#8249;</button><button class="proj-gallery-arrow right" onclick="galleryNav(' + p.id + ',1)">&#8250;</button>'
+    : '';
+  var div = document.createElement('div');
+  div.className = 'project-card';
+  div.innerHTML =
+    '<div class="proj-gallery"><div class="proj-gallery-imgs" id="gi-' + p.id + '">' + galleryInner + '</div>' + arrowsHtml + '<div class="proj-gallery-nav">' + dotsHtml + '</div></div>' +
+    '<div class="project-header"><div class="project-badge">Active Venture</div><h3>' + esc(p.name) + '</h3><div style="font-size:12px;opacity:.8;margin-top:3px">' + esc(p.size) + ' • ' + p.plots + ' Total Plots</div></div>' +
+    '<div class="project-body"><div class="project-stat-row"><div class="proj-stat"><div class="lbl">Per Acre</div><div class="val">₹' + esc(p.price_acre) + '</div></div><div class="proj-stat"><div class="lbl">Per Sq.Yard</div><div class="val">₹' + esc(p.price_sqyard) + '</div></div><div class="proj-stat"><div class="lbl">Venture Size</div><div class="val">' + esc(p.size) + '</div></div><div class="proj-stat"><div class="lbl">Total Plots</div><div class="val">' + p.plots + '</div></div></div>' +
+    (p.description ? '<p style="font-size:13px;color:var(--mid);margin-bottom:12px;line-height:1.6">' + esc(p.description) + '</p>' : '') +
+    '<div class="vacancy-label">Available Plots (' + pills.length + ' vacant)</div><div class="vacancy-pills">' + pillsHtml + '</div></div>' +
+    '<div class="project-footer"><button class="btn-map" onclick="window.open(\'' + esc(p.location) + '\',\'_blank\')">📍 View on Map</button><button class="btn-enquire" onclick="enquire(\'' + esc(p.name) + '\')">Enquire Now</button></div>';
+  return div;
+}
+
+function galleryNav(id, dir) {
+  var imgs = document.querySelectorAll('#gi-' + id + ' .proj-gallery-img');
+  if (!imgs.length) return;
+  var cur = ST.galleryIdx[id] || 0;
+  cur = (cur + dir + imgs.length) % imgs.length;
+  ST.galleryIdx[id] = cur;
+  document.getElementById('gi-' + id).style.transform = 'translateX(-' + cur * 100 + '%)';
+  var parent = document.getElementById('gi-' + id).parentElement;
+  var dots = parent.querySelectorAll('.proj-gallery-dot');
+  dots.forEach(function(d, i) { d.classList.toggle('active', i === cur); });
+}
+function galleryDot(id, idx) {
+  ST.galleryIdx[id] = idx;
+  document.getElementById('gi-' + id).style.transform = 'translateX(-' + idx * 100 + '%)';
+  var parent = document.getElementById('gi-' + id).parentElement;
+  var dots = parent.querySelectorAll('.proj-gallery-dot');
+  dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+}
+
+function enquire(name) {
+  sp('contact');
+  setTimeout(function() { document.getElementById('cf-message').value = 'I am interested in ' + name + '. Please contact me.'; }, 150);
+}
+
+// ── JOBS (PUBLIC) ─────────────────────────────────────────────────
+async function renderJobs() {
+  var c = document.getElementById('jobs-render');
+  c.innerHTML = '<div class="no-data">Loading...</div>';
+  try {
+    var jobs = await dbGet('jobs', 'active=eq.true&order=created_at.asc');
+    c.innerHTML = '';
+    if (!jobs.length) { c.innerHTML = '<div class="no-data">No open positions right now. Check back soon!</div>'; return; }
+    jobs.forEach(function(j) {
+      var div = document.createElement('div');
+      div.className = 'job-card';
+      div.innerHTML = '<div class="job-badge">' + esc(j.type) + '</div><h3>' + esc(j.title) + '</h3><div class="job-meta">📍 ' + esc(j.location) + ' &nbsp;•&nbsp; ' + esc(j.department) + '</div><p>' + esc(j.description) + '</p><button class="job-apply-btn" onclick="openApply(' + j.id + ',\'' + esc(j.title) + '\')">Apply Now</button>';
+      c.appendChild(div);
+    });
+  } catch(e) { c.innerHTML = '<div class="no-data">Could not load jobs.</div>'; }
+}
+
+function openApply(id, title) {
+  document.getElementById('ap-job-id').value = id;
+  document.getElementById('ap-job-title-val').value = title;
+  document.getElementById('apply-job-title').textContent = title;
+  document.getElementById('apply-wrap').style.display = 'block';
+  document.getElementById('apply-success').style.display = 'none';
+  ['ap-name','ap-mobile','ap-email','ap-exp','ap-why'].forEach(function(f) { document.getElementById(f).value = ''; });
+  document.getElementById('apply-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function closeApply() { document.getElementById('apply-wrap').style.display = 'none'; }
+
+async function submitApplication() {
+  var name = document.getElementById('ap-name').value.trim();
+  var mobile = document.getElementById('ap-mobile').value.trim();
+  if (!name || !mobile) { showToast('Please fill in your name and mobile number', true); return; }
+  var btn = document.getElementById('apply-submit-btn');
+  btn.disabled = true; btn.textContent = 'Submitting...';
+  try {
+    await dbInsert('applications', {
+      job_id: parseInt(document.getElementById('ap-job-id').value),
+      job_title: document.getElementById('ap-job-title-val').value,
+      name: name, mobile: mobile,
+      email: document.getElementById('ap-email').value.trim(),
+      experience: document.getElementById('ap-exp').value.trim(),
+      why_join: document.getElementById('ap-why').value.trim()
+    });
+    document.getElementById('apply-success').style.display = 'block';
+    ['ap-name','ap-mobile','ap-email','ap-exp','ap-why'].forEach(function(f) { document.getElementById(f).value = ''; });
+    showToast('Application submitted!');
+  } catch(e) { showToast('Submission failed. Please try again.', true); console.error(e); }
+  finally { btn.disabled = false; btn.textContent = 'Submit Application'; }
+}
+
+// ── BRANCHES (PUBLIC) ─────────────────────────────────────────────
+async function renderBranchesContact() {
+  var c = document.getElementById('contact-branches-render');
+  try {
+    var branches = await dbGet('branches', 'order=created_at.asc');
+    c.innerHTML = branches.map(function(b) {
+      return '<div class="branch-card"><h4>' + esc(b.name) + '</h4><p style="font-size:12px;color:var(--mid);margin-bottom:6px;line-height:1.5">' + esc(b.address) + '</p><div style="font-size:13px">📞 ' + esc(b.phone) + '</div><div style="font-size:13px">✉️ ' + esc(b.email) + '</div>' + (b.map_url ? '<a href="' + esc(b.map_url) + '" target="_blank" style="font-size:13px;color:var(--g);display:block;margin-top:5px">📍 View on Map</a>' : '') + '</div>';
+    }).join('');
+  } catch(e) { console.warn('Branches load failed', e); }
+}
+
+async function renderLocations() {
+  var c = document.getElementById('locations-render');
+  try {
+    var branches = await dbGet('branches', 'order=created_at.asc');
+    c.innerHTML = branches.map(function(b) {
+      return '<div class="loc-card"><h4>' + esc(b.name) + '</h4><p>' + esc(b.address) + '</p><div style="font-size:13px;margin-bottom:10px;display:flex;flex-direction:column;gap:3px"><span>📞 ' + esc(b.phone) + '</span><span>✉️ ' + esc(b.email) + '</span></div>' + (b.map_url ? '<button class="loc-map-btn" onclick="window.open(\'' + esc(b.map_url) + '\',\'_blank\')">📍 Open in Google Maps</button>' : '') + '</div>';
+    }).join('');
+  } catch(e) { console.warn(e); }
+}
+
+// ── CONTACT FORM ──────────────────────────────────────────────────
+async function submitContact() {
+  var name = document.getElementById('cf-name').value.trim();
+  var mobile = document.getElementById('cf-mobile').value.trim();
+  if (!name || !mobile) { showToast('Please fill in your name and mobile number', true); return; }
+  var btn = document.getElementById('contact-submit-btn');
+  btn.disabled = true; btn.textContent = 'Sending...';
+  try {
+    await dbInsert('submissions', {
+      name: name, mobile: mobile,
+      email: document.getElementById('cf-email').value.trim(),
+      service: document.getElementById('cf-service').value,
+      message: document.getElementById('cf-message').value.trim()
+    });
+    ['cf-name','cf-mobile','cf-email','cf-message'].forEach(function(f) { document.getElementById(f).value = ''; });
+    document.getElementById('cf-service').value = '';
+    document.getElementById('contact-success').style.display = 'block';
+    setTimeout(function() { document.getElementById('contact-success').style.display = 'none'; }, 6000);
+    showToast('Message sent successfully!');
+  } catch(e) { showToast('Failed to send. Please try again.', true); console.error(e); }
+  finally { btn.disabled = false; btn.textContent = 'Send Message & Book Appointment'; }
+}
+
+// ── ADMIN ─────────────────────────────────────────────────────────
+async function adminLogin() {
+  var u = document.getElementById('login-user').value.trim();
+  var p = document.getElementById('login-pass').value;
+  var btn = document.getElementById('login-btn');
+  btn.disabled = true; btn.textContent = 'Signing in...';
+  try {
+    var rows = await dbGet('settings', 'id=eq.1');
+    var s = rows && rows.length ? rows[0] : { admin_user: 'admin', admin_pass: 'admin123' };
+    if (u === s.admin_user && p === s.admin_pass) {
+      ST.loggedIn = true;
+      document.getElementById('admin-login-view').style.display = 'none';
+      document.getElementById('admin-panel-view').style.display = 'block';
+      renderAdmin();
+    } else {
+      document.getElementById('login-error').style.display = 'block';
     }
-    var dotsHtml=imgs.length>1?imgs.map(function(s,i){return'<div class="proj-gallery-dot'+(i===0?' active':'')+'" onclick="galleryDot('+p.id+','+i+')"></div>';}).join(''):'';
-    var arrowsHtml=imgs.length>1?'<button class="proj-gallery-arrow left" onclick="galleryNav('+p.id+',-1)">&#8249;</button><button class="proj-gallery-arrow right" onclick="galleryNav('+p.id+',1)">&#8250;</button>':'';
-    var card=document.createElement('div');card.className='project-card';
-    card.innerHTML='<div class="proj-gallery" id="gallery-'+p.id+'"><div class="proj-gallery-imgs" id="gallery-imgs-'+p.id+'" style="transform:translateX(0)">'+galleryInner+'</div>'+arrowsHtml+'<div class="proj-gallery-nav" id="gallery-dots-'+p.id+'">'+dotsHtml+'</div></div><div class="project-header"><div class="project-badge">Active Venture</div><h3>'+esc(p.name)+'</h3><div style="font-size:12px;opacity:.8;margin-top:3px">'+esc(p.size)+' • '+p.plots+' Total Plots</div></div><div class="project-body"><div class="project-stat-row"><div class="proj-stat"><div class="lbl">Per Acre</div><div class="val">₹'+esc(p.priceAcre)+'</div></div><div class="proj-stat"><div class="lbl">Per Sq.Yard</div><div class="val">₹'+esc(p.priceSqYard)+'</div></div><div class="proj-stat"><div class="lbl">Venture Size</div><div class="val">'+esc(p.size)+'</div></div><div class="proj-stat"><div class="lbl">Total Plots</div><div class="val">'+p.plots+'</div></div></div>'+(p.desc?'<p style="font-size:12px;color:var(--mid);margin-bottom:10px;line-height:1.6">'+esc(p.desc)+'</p>':'')+'<div class="vacancy-label">Available Plots ('+pills.length+' vacant)</div><div class="vacancy-pills">'+pillsHtml+'</div></div><div class="project-footer"><button class="btn-map" onclick="window.open(\''+p.location+'\',\'_blank\')">📍 View on Map</button><button class="btn-enquire" onclick="enquire(\''+esc(p.name)+'\')">Enquire Now</button></div>';
-    c.appendChild(card);
+  } catch(e) {
+    // Fallback to default credentials if DB unreachable
+    if (u === 'admin' && p === 'admin123') {
+      ST.loggedIn = true;
+      document.getElementById('admin-login-view').style.display = 'none';
+      document.getElementById('admin-panel-view').style.display = 'block';
+      renderAdmin();
+    } else {
+      document.getElementById('login-error').style.display = 'block';
+    }
+  }
+  finally { btn.disabled = false; btn.textContent = 'Sign In'; }
+}
+
+function adminLogout() {
+  ST.loggedIn = false;
+  document.getElementById('admin-login-view').style.display = 'flex';
+  document.getElementById('admin-panel-view').style.display = 'none';
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-pass').value = '';
+  document.getElementById('login-error').style.display = 'none';
+}
+
+function renderAdmin() {
+  if (!ST.loggedIn) return;
+  loadAdminSettings();
+  renderSubmissionsAdmin();
+  renderProjectsAdmin();
+  renderBranchesAdmin();
+  renderJobsAdmin();
+  renderApplicationsAdmin();
+}
+
+function switchTab(t, btn) {
+  ['submissions','projects','branches','careers','settings'].forEach(function(x) {
+    document.getElementById('tab-' + x).style.display = x === t ? 'block' : 'none';
   });
-}
-
-var galleryIdx={};
-function galleryNav(id,dir){
-  var p=S.projects.find(function(x){return x.id===id;});
-  if(!p||!p.images||p.images.length<=1)return;
-  var cur=galleryIdx[id]||0;
-  cur=(cur+dir+p.images.length)%p.images.length;
-  galleryIdx[id]=cur;
-  document.getElementById('gallery-imgs-'+id).style.transform='translateX(-'+cur*100+'%)';
-  var dots=document.querySelectorAll('#gallery-dots-'+id+' .proj-gallery-dot');
-  dots.forEach(function(d,i){d.classList.toggle('active',i===cur);});
-}
-function galleryDot(id,idx){galleryIdx[id]=idx;var p=S.projects.find(function(x){return x.id===id;});if(!p)return;document.getElementById('gallery-imgs-'+id).style.transform='translateX(-'+idx*100+'%)';var dots=document.querySelectorAll('#gallery-dots-'+id+' .proj-gallery-dot');dots.forEach(function(d,i){d.classList.toggle('active',i===idx);});}
-
-function enquire(name){sp('contact');setTimeout(function(){document.getElementById('cf-message').value='I am interested in '+name+'. Please contact me.';},100);}
-
-function renderJobs(){
-  var c=document.getElementById('jobs-render');c.innerHTML='';
-  var nj=document.getElementById('no-jobs');
-  if(!S.jobs.length){nj.classList.remove('hidden');return;}
-  nj.classList.add('hidden');
-  S.jobs.forEach(function(j){
-    var div=document.createElement('div');div.className='job-card';
-    div.innerHTML='<div class="job-badge">'+esc(j.type)+'</div><h3>'+esc(j.title)+'</h3><div class="loc">📍 '+esc(j.loc)+' • '+esc(j.dept)+'</div><p>'+esc(j.desc)+'</p><button class="job-apply-btn" onclick="openApply('+j.id+',\''+esc(j.title)+'\')">Apply Now</button>';
-    c.appendChild(div);
-  });
-  document.getElementById('apply-section').style.display='none';
-}
-
-function openApply(id,title){
-  document.getElementById('ap-job-id').value=id;
-  document.getElementById('apply-job-title').textContent=title;
-  document.getElementById('apply-section').style.display='block';
-  document.getElementById('apply-success').style.display='none';
-  ['ap-name','ap-mobile','ap-email','ap-exp','ap-why'].forEach(function(f){document.getElementById(f).value='';});
-  document.getElementById('apply-section').scrollIntoView({behavior:'smooth'});
-}
-function closeApply(){document.getElementById('apply-section').style.display='none';}
-
-function submitApplication(){
-  var name=document.getElementById('ap-name').value.trim();
-  var mobile=document.getElementById('ap-mobile').value.trim();
-  var jobId=parseInt(document.getElementById('ap-job-id').value);
-  if(!name||!mobile){showToast('Please fill in name and mobile');return;}
-  var job=S.jobs.find(function(j){return j.id===jobId;});
-  S.applications.push({id:Date.now(),jobId:jobId,jobTitle:job?job.title:'Unknown',name:name,mobile:mobile,email:document.getElementById('ap-email').value.trim(),exp:document.getElementById('ap-exp').value.trim(),why:document.getElementById('ap-why').value.trim(),date:new Date().toLocaleString('en-IN')});
-  sv();
-  document.getElementById('apply-success').style.display='block';
-  ['ap-name','ap-mobile','ap-email','ap-exp','ap-why'].forEach(function(f){document.getElementById(f).value='';});
-}
-
-function renderBranchesContact(){
-  var c=document.getElementById('contact-branches-render');if(!c)return;
-  c.innerHTML=S.branches.map(function(b){return'<div class="branch-card"><h4>'+esc(b.name)+'</h4><p style="font-size:12px;color:var(--mid);margin-bottom:6px">'+esc(b.addr)+'</p><div style="font-size:12px;color:var(--dk)">📞 '+esc(b.phone)+'</div><div style="font-size:12px;color:var(--dk)">✉️ '+esc(b.email)+'</div>'+(b.map?'<a href="'+b.map+'" target="_blank" style="font-size:12px;color:var(--g);display:block;margin-top:5px">📍 View on Map</a>':'')+'</div>';}).join('');
-}
-
-function renderLocations(){
-  var c=document.getElementById('locations-render');if(!c)return;
-  c.innerHTML=S.branches.map(function(b){return'<div class="loc-card"><h4>'+esc(b.name)+'</h4><p>'+esc(b.addr)+'</p><div style="font-size:12px;margin-bottom:10px;display:flex;flex-direction:column;gap:3px"><span>📞 '+esc(b.phone)+'</span><span>✉️ '+esc(b.email)+'</span></div>'+(b.map?'<button class="loc-map-btn" onclick="window.open(\''+b.map+'\',\'_blank\')">Open in Google Maps</button>':'<div style="font-size:11px;color:var(--mid)">📍 '+esc(b.name)+'</div>')+'</div>';}).join('');
-}
-
-function submitContact(){
-  var name=document.getElementById('cf-name').value.trim();
-  var mobile=document.getElementById('cf-mobile').value.trim();
-  if(!name||!mobile){showToast('Please fill in name and mobile');return;}
-  S.submissions.unshift({id:Date.now(),name:name,mobile:mobile,email:document.getElementById('cf-email').value.trim(),service:document.getElementById('cf-service').value,message:document.getElementById('cf-message').value.trim(),date:new Date().toLocaleString('en-IN')});
-  sv();
-  ['cf-name','cf-mobile','cf-email','cf-message'].forEach(function(f){document.getElementById(f).value='';});
-  document.getElementById('cf-service').value='';
-  var s=document.getElementById('contact-success');s.style.display='block';setTimeout(function(){s.style.display='none';},5000);
-}
-
-function adminLogin(){
-  var u=document.getElementById('login-user').value.trim();
-  var p=document.getElementById('login-pass').value;
-  if(u===S.creds.user&&p===S.creds.pass){S.loggedIn=true;document.getElementById('admin-login-view').style.display='none';document.getElementById('admin-panel-view').style.display='block';renderAdmin();}
-  else{document.getElementById('login-error').style.display='block';}
-}
-function adminLogout(){S.loggedIn=false;document.getElementById('admin-login-view').style.display='flex';document.getElementById('admin-panel-view').style.display='none';document.getElementById('login-user').value='';document.getElementById('login-pass').value='';document.getElementById('login-error').style.display='none';}
-
-function renderAdmin(){
-  if(!S.loggedIn)return;
-  renderSubmissionsAdmin();renderProjectsAdmin();renderBranchesAdmin();renderJobsAdmin();renderApplicationsAdmin();loadSettings();
-}
-
-function switchTab(t,btn){
-  ['submissions','projects','branches','careers','settings'].forEach(function(x){document.getElementById('tab-'+x).style.display=x===t?'block':'none';});
-  document.querySelectorAll('.admin-tab').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.admin-tab').forEach(function(b) { b.classList.remove('active'); });
   btn.classList.add('active');
 }
 
-function renderSubmissionsAdmin(){
-  var c=document.getElementById('submissions-content');
-  if(!S.submissions.length){c.innerHTML='<div class="no-data"><div style="font-size:32px">📭</div><div>No submissions yet.</div></div>';return;}
-  var rows=S.submissions.map(function(s){return'<tr><td><strong>'+esc(s.name)+'</strong><br><span style="font-size:11px;color:var(--mid)">'+esc(s.date)+'</span></td><td>'+esc(s.mobile)+'</td><td>'+esc(s.email||'-')+'</td><td>'+(s.service?'<span class="sub-tag">'+esc(s.service)+'</span>':'-')+'</td><td style="max-width:180px">'+esc(s.message||'-')+'</td><td><button class="admin-del-btn" onclick="delSub('+s.id+')">Del</button></td></tr>';}).join('');
-  c.innerHTML='<div style="overflow-x:auto"><table class="sub-table"><thead><tr><th>Name</th><th>Mobile</th><th>Email</th><th>Service</th><th>Message</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>';
-}
-function delSub(id){S.submissions=S.submissions.filter(function(s){return s.id!==id;});sv();renderSubmissionsAdmin();showToast('Deleted');}
-
-function renderProjectsAdmin(){
-  var c=document.getElementById('projects-admin-list');
-  c.innerHTML=S.projects.map(function(p){return'<div class="proj-admin-item"><div><div class="proj-admin-name">'+esc(p.name)+'</div><div class="proj-admin-meta">'+esc(p.size)+' • '+p.plots+' plots • '+(p.images||[]).length+' image(s)</div></div><div style="display:flex;gap:6px"><button class="admin-edit-btn" onclick="editProject('+p.id+')">Edit</button><button class="admin-del-btn" onclick="delProject('+p.id+')">Del</button></div></div>';}).join('');
-}
-
-function openModal(type){
-  S.editType=type;S.editId=null;
-  if(type==='project'){document.getElementById('modal-project-title').textContent='Add New Project';['m-name','m-loc','m-pacre','m-psqy','m-size','m-plots','m-vacancy','m-desc'].forEach(function(f){document.getElementById(f).value='';});document.getElementById('m-images-preview').innerHTML='';document.getElementById('modal-project').classList.remove('hidden');}
-  else if(type==='branch'){document.getElementById('modal-branch-title').textContent='Add Office Branch';['b-name','b-addr','b-phone','b-email','b-map'].forEach(function(f){document.getElementById(f).value='';});document.getElementById('modal-branch').classList.remove('hidden');}
-  else if(type==='job'){document.getElementById('modal-job-title').textContent='Add Job Opening';['j-title','j-dept','j-loc','j-desc'].forEach(function(f){document.getElementById(f).value='';});document.getElementById('j-type').value='Full-time';document.getElementById('modal-job').classList.remove('hidden');}
-}
-function closeModal(type){document.getElementById('modal-'+type).classList.add('hidden');}
-
-function editProject(id){
-  var p=S.projects.find(function(x){return x.id===id;});if(!p)return;
-  S.editId=id;S.editType='project';
-  document.getElementById('modal-project-title').textContent='Edit Project';
-  document.getElementById('m-name').value=p.name;document.getElementById('m-loc').value=p.location;document.getElementById('m-pacre').value=p.priceAcre;document.getElementById('m-psqy').value=p.priceSqYard;document.getElementById('m-size').value=p.size;document.getElementById('m-plots').value=p.plots;document.getElementById('m-vacancy').value=p.vacancy;document.getElementById('m-desc').value=p.desc||'';
-  var prev=document.getElementById('m-images-preview');prev.innerHTML=(p.images||[]).map(function(src,i){return'<div style="position:relative;width:70px;height:50px;border-radius:6px;overflow:hidden;border:1px solid var(--bd)"><img src="'+src+'" style="width:100%;height:100%;object-fit:cover"/><button onclick="removeImg('+id+','+i+')" style="position:absolute;top:1px;right:1px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:50%;width:16px;height:16px;font-size:10px;cursor:pointer;line-height:16px;padding:0">×</button></div>';}).join('');
-  document.getElementById('modal-project').classList.remove('hidden');
-}
-function removeImg(projId,idx){var p=S.projects.find(function(x){return x.id===projId;});if(p&&p.images){p.images.splice(idx,1);sv();editProject(projId);}}
-
-function saveProject(){
-  var name=document.getElementById('m-name').value.trim();if(!name){showToast('Name required');return;}
-  var files=document.getElementById('m-images').files;
-  function doSave(newImgs){
-    var proj={id:S.editId||Date.now(),name:name,location:document.getElementById('m-loc').value.trim(),priceAcre:document.getElementById('m-pacre').value.trim(),priceSqYard:document.getElementById('m-psqy').value.trim(),size:document.getElementById('m-size').value.trim(),plots:parseInt(document.getElementById('m-plots').value)||0,vacancy:document.getElementById('m-vacancy').value.trim(),desc:document.getElementById('m-desc').value.trim(),images:newImgs};
-    if(S.editId){var idx=S.projects.findIndex(function(p){return p.id===S.editId;});if(idx>=0)S.projects[idx]=proj;}else{S.projects.push(proj);}
-    sv();closeModal('project');renderProjectsAdmin();showToast('Project saved!');
-  }
-  if(files&&files.length>0){
-    var existing=[];if(S.editId){var ep=S.projects.find(function(x){return x.id===S.editId;});if(ep)existing=(ep.images||[]).slice();}
-    var loaded=0,newOnes=[];
-    Array.from(files).forEach(function(f){
-      var r=new FileReader();r.onload=function(e){newOnes.push(e.target.result);loaded++;if(loaded===files.length)doSave(existing.concat(newOnes));};r.readAsDataURL(f);
+// SUBMISSIONS ADMIN
+async function renderSubmissionsAdmin() {
+  var c = document.getElementById('submissions-content');
+  c.innerHTML = '<div class="no-data">Loading...</div>';
+  try {
+    var rows = await dbGet('submissions', 'order=created_at.desc');
+    if (!rows.length) { c.innerHTML = '<div class="no-data"><div style="font-size:36px">📭</div><div>No submissions yet.</div></div>'; return; }
+    var html = '<div style="overflow-x:auto"><table class="sub-table"><thead><tr><th>Name &amp; Date</th><th>Mobile</th><th>Email</th><th>Service</th><th>Message</th><th></th></tr></thead><tbody>';
+    rows.forEach(function(s) {
+      var d = new Date(s.created_at).toLocaleString('en-IN');
+      html += '<tr><td><strong>' + esc(s.name) + '</strong><br><span style="font-size:11px;color:var(--mid)">' + d + '</span></td><td>' + esc(s.mobile) + '</td><td>' + esc(s.email || '—') + '</td><td>' + (s.service ? '<span class="sub-tag">' + esc(s.service) + '</span>' : '—') + '</td><td style="max-width:200px">' + esc(s.message || '—') + '</td><td><button class="admin-del-btn" onclick="delRow(\'submissions\',' + s.id + ',renderSubmissionsAdmin)">Del</button></td></tr>';
     });
-  }else{
-    var ex=[];if(S.editId){var ep2=S.projects.find(function(x){return x.id===S.editId;});if(ep2)ex=(ep2.images||[]).slice();}
-    doSave(ex);
+    html += '</tbody></table></div>';
+    c.innerHTML = html;
+  } catch(e) { c.innerHTML = '<div class="no-data">Could not load submissions.</div>'; console.error(e); }
+}
+
+// PROJECTS ADMIN
+async function renderProjectsAdmin() {
+  var c = document.getElementById('projects-admin-list');
+  c.innerHTML = '<div class="no-data">Loading...</div>';
+  try {
+    var rows = await dbGet('projects', 'order=created_at.asc');
+    if (!rows.length) { c.innerHTML = '<div class="no-data">No projects yet.</div>'; return; }
+    c.innerHTML = rows.map(function(p) {
+      return '<div class="proj-admin-item"><div><div class="proj-admin-name">' + esc(p.name) + '</div><div class="proj-admin-meta">' + esc(p.size) + ' • ' + p.plots + ' plots • ' + (p.images || []).length + ' image(s)</div></div><div style="display:flex;gap:8px"><button class="admin-edit-btn" onclick="openModal(\'project\',' + p.id + ')">Edit</button><button class="admin-del-btn" onclick="delRow(\'projects\',' + p.id + ',renderProjectsAdmin)">Del</button></div></div>';
+    }).join('');
+  } catch(e) { c.innerHTML = '<div class="no-data">Could not load.</div>'; }
+}
+
+// BRANCHES ADMIN
+async function renderBranchesAdmin() {
+  var c = document.getElementById('branches-admin-list');
+  c.innerHTML = '<div class="no-data">Loading...</div>';
+  try {
+    var rows = await dbGet('branches', 'order=created_at.asc');
+    if (!rows.length) { c.innerHTML = '<div class="no-data">No branches yet.</div>'; return; }
+    c.innerHTML = rows.map(function(b) {
+      return '<div class="proj-admin-item"><div><div class="proj-admin-name">' + esc(b.name) + '</div><div class="proj-admin-meta">' + esc((b.address || '').substring(0, 55)) + '...</div></div><div style="display:flex;gap:8px"><button class="admin-edit-btn" onclick="openModal(\'branch\',' + b.id + ')">Edit</button><button class="admin-del-btn" onclick="delRow(\'branches\',' + b.id + ',renderBranchesAdmin)">Del</button></div></div>';
+    }).join('');
+  } catch(e) { c.innerHTML = '<div class="no-data">Could not load.</div>'; }
+}
+
+// JOBS ADMIN
+async function renderJobsAdmin() {
+  var c = document.getElementById('jobs-admin-list');
+  c.innerHTML = '<div class="no-data">Loading...</div>';
+  try {
+    var rows = await dbGet('jobs', 'order=created_at.asc');
+    var apps = await dbGet('applications', 'select=job_id');
+    var countMap = {};
+    apps.forEach(function(a) { countMap[a.job_id] = (countMap[a.job_id] || 0) + 1; });
+    if (!rows.length) { c.innerHTML = '<div class="no-data">No jobs yet.</div>'; return; }
+    c.innerHTML = rows.map(function(j) {
+      return '<div class="proj-admin-item"><div><div class="proj-admin-name">' + esc(j.title) + '</div><div class="proj-admin-meta">' + esc(j.department) + ' • ' + esc(j.location) + ' • ' + esc(j.type) + ' • ' + (countMap[j.id] || 0) + ' applicant(s)</div></div><div style="display:flex;gap:8px"><button class="admin-edit-btn" onclick="openModal(\'job\',' + j.id + ')">Edit</button><button class="admin-del-btn" onclick="delRow(\'jobs\',' + j.id + ',renderJobsAdmin)">Del</button></div></div>';
+    }).join('');
+  } catch(e) { c.innerHTML = '<div class="no-data">Could not load.</div>'; }
+}
+
+// APPLICATIONS ADMIN
+async function renderApplicationsAdmin() {
+  var c = document.getElementById('applications-content');
+  c.innerHTML = '<div class="no-data">Loading...</div>';
+  try {
+    var rows = await dbGet('applications', 'order=created_at.desc');
+    if (!rows.length) { c.innerHTML = '<div class="no-data"><div style="font-size:36px">📭</div><div>No applications yet.</div></div>'; return; }
+    var html = '<div style="overflow-x:auto"><table class="sub-table"><thead><tr><th>Applicant</th><th>Position</th><th>Mobile</th><th>Email</th><th>Experience</th><th>Why Join?</th><th></th></tr></thead><tbody>';
+    rows.forEach(function(a) {
+      var d = new Date(a.created_at).toLocaleString('en-IN');
+      html += '<tr><td><strong>' + esc(a.name) + '</strong><br><span style="font-size:11px;color:var(--mid)">' + d + '</span></td><td><span class="sub-tag">' + esc(a.job_title || '—') + '</span></td><td>' + esc(a.mobile) + '</td><td>' + esc(a.email || '—') + '</td><td>' + esc(a.experience || '—') + '</td><td style="max-width:160px">' + esc(a.why_join || '—') + '</td><td><button class="admin-del-btn" onclick="delRow(\'applications\',' + a.id + ',renderApplicationsAdmin)">Del</button></td></tr>';
+    });
+    html += '</tbody></table></div>';
+    c.innerHTML = html;
+  } catch(e) { c.innerHTML = '<div class="no-data">Could not load.</div>'; }
+}
+
+// DELETE ROW
+async function delRow(table, id, refreshFn) {
+  if (!confirm('Are you sure you want to delete this entry?')) return;
+  try {
+    await dbDelete(table, id);
+    showToast('Deleted successfully');
+    refreshFn();
+  } catch(e) { showToast('Delete failed', true); console.error(e); }
+}
+
+// ── MODAL OPEN ────────────────────────────────────────────────────
+async function openModal(type, id) {
+  ST.editType = type; ST.editId = id;
+  ST.pendingImages = []; ST.existingImages = [];
+
+  if (type === 'project') {
+    document.getElementById('modal-project-title').textContent = id ? 'Edit Project' : 'Add New Project';
+    ['m-name','m-loc','m-pacre','m-psqy','m-size','m-plots','m-vacancy','m-desc'].forEach(function(f) { document.getElementById(f).value = ''; });
+    document.getElementById('m-img-preview').innerHTML = '';
+    document.getElementById('m-images').value = '';
+    if (id) {
+      try {
+        var rows = await dbGet('projects', 'id=eq.' + id);
+        if (rows.length) {
+          var p = rows[0];
+          document.getElementById('m-name').value = p.name || '';
+          document.getElementById('m-loc').value = p.location || '';
+          document.getElementById('m-pacre').value = p.price_acre || '';
+          document.getElementById('m-psqy').value = p.price_sqyard || '';
+          document.getElementById('m-size').value = p.size || '';
+          document.getElementById('m-plots').value = p.plots || '';
+          document.getElementById('m-vacancy').value = p.vacancy || '';
+          document.getElementById('m-desc').value = p.description || '';
+          ST.existingImages = (p.images || []).slice();
+          renderImgPreview();
+        }
+      } catch(e) { showToast('Could not load project data', true); }
+    }
+    document.getElementById('modal-project').classList.remove('hidden');
+  } else if (type === 'branch') {
+    document.getElementById('modal-branch-title').textContent = id ? 'Edit Branch' : 'Add Office Branch';
+    ['b-name','b-addr','b-phone','b-email','b-map'].forEach(function(f) { document.getElementById(f).value = ''; });
+    if (id) {
+      try {
+        var rows = await dbGet('branches', 'id=eq.' + id);
+        if (rows.length) {
+          var b = rows[0];
+          document.getElementById('b-name').value = b.name || '';
+          document.getElementById('b-addr').value = b.address || '';
+          document.getElementById('b-phone').value = b.phone || '';
+          document.getElementById('b-email').value = b.email || '';
+          document.getElementById('b-map').value = b.map_url || '';
+        }
+      } catch(e) { showToast('Could not load branch data', true); }
+    }
+    document.getElementById('modal-branch').classList.remove('hidden');
+  } else if (type === 'job') {
+    document.getElementById('modal-job-title').textContent = id ? 'Edit Job' : 'Add Job Opening';
+    ['j-title','j-dept','j-loc','j-desc'].forEach(function(f) { document.getElementById(f).value = ''; });
+    document.getElementById('j-type').value = 'Full-time';
+    if (id) {
+      try {
+        var rows = await dbGet('jobs', 'id=eq.' + id);
+        if (rows.length) {
+          var j = rows[0];
+          document.getElementById('j-title').value = j.title || '';
+          document.getElementById('j-dept').value = j.department || '';
+          document.getElementById('j-loc').value = j.location || '';
+          document.getElementById('j-type').value = j.type || 'Full-time';
+          document.getElementById('j-desc').value = j.description || '';
+        }
+      } catch(e) { showToast('Could not load job data', true); }
+    }
+    document.getElementById('modal-job').classList.remove('hidden');
   }
 }
-function delProject(id){if(!confirm('Delete this project?'))return;S.projects=S.projects.filter(function(p){return p.id!==id;});sv();renderProjectsAdmin();showToast('Deleted');}
 
-function renderBranchesAdmin(){
-  var c=document.getElementById('branches-admin-list');
-  c.innerHTML=S.branches.map(function(b){return'<div class="proj-admin-item"><div><div class="proj-admin-name">'+esc(b.name)+'</div><div class="proj-admin-meta">'+esc(b.addr.substring(0,60))+'...</div></div><div style="display:flex;gap:6px"><button class="admin-edit-btn" onclick="editBranch('+b.id+')">Edit</button><button class="admin-del-btn" onclick="delBranch('+b.id+')">Del</button></div></div>';}).join('');
-}
-function editBranch(id){var b=S.branches.find(function(x){return x.id===id;});if(!b)return;S.editId=id;document.getElementById('modal-branch-title').textContent='Edit Branch';document.getElementById('b-name').value=b.name;document.getElementById('b-addr').value=b.addr;document.getElementById('b-phone').value=b.phone;document.getElementById('b-email').value=b.email;document.getElementById('b-map').value=b.map||'';document.getElementById('modal-branch').classList.remove('hidden');}
-function saveBranch(){var name=document.getElementById('b-name').value.trim();if(!name){showToast('Name required');return;}var br={id:S.editId||Date.now(),name:name,addr:document.getElementById('b-addr').value.trim(),phone:document.getElementById('b-phone').value.trim(),email:document.getElementById('b-email').value.trim(),map:document.getElementById('b-map').value.trim()};if(S.editId){var i=S.branches.findIndex(function(b){return b.id===S.editId;});if(i>=0)S.branches[i]=br;}else{S.branches.push(br);}sv();closeModal('branch');renderBranchesAdmin();showToast('Branch saved!');}
-function delBranch(id){if(!confirm('Delete this branch?'))return;S.branches=S.branches.filter(function(b){return b.id!==id;});sv();renderBranchesAdmin();showToast('Deleted');}
+function closeModal(type) { document.getElementById('modal-' + type).classList.add('hidden'); }
 
-function renderJobsAdmin(){
-  var c=document.getElementById('jobs-admin-list');
-  c.innerHTML=S.jobs.map(function(j){var count=S.applications.filter(function(a){return a.jobId===j.id;}).length;return'<div class="proj-admin-item"><div><div class="proj-admin-name">'+esc(j.title)+'</div><div class="proj-admin-meta">'+esc(j.dept)+' • '+esc(j.loc)+' • '+esc(j.type)+' • '+count+' applicant(s)</div></div><div style="display:flex;gap:6px"><button class="admin-edit-btn" onclick="editJob('+j.id+')">Edit</button><button class="admin-del-btn" onclick="delJob('+j.id+')">Del</button></div></div>';}).join('')||'<div class="no-data">No job openings yet.</div>';
-}
-function editJob(id){var j=S.jobs.find(function(x){return x.id===id;});if(!j)return;S.editId=id;document.getElementById('modal-job-title').textContent='Edit Job';document.getElementById('j-title').value=j.title;document.getElementById('j-dept').value=j.dept;document.getElementById('j-loc').value=j.loc;document.getElementById('j-type').value=j.type;document.getElementById('j-desc').value=j.desc;document.getElementById('modal-job').classList.remove('hidden');}
-function saveJob(){var title=document.getElementById('j-title').value.trim();if(!title){showToast('Title required');return;}var j={id:S.editId||Date.now(),title:title,dept:document.getElementById('j-dept').value.trim(),loc:document.getElementById('j-loc').value.trim(),type:document.getElementById('j-type').value,desc:document.getElementById('j-desc').value.trim()};if(S.editId){var i=S.jobs.findIndex(function(x){return x.id===S.editId;});if(i>=0)S.jobs[i]=j;}else{S.jobs.push(j);}sv();closeModal('job');renderJobsAdmin();showToast('Job saved!');}
-function delJob(id){if(!confirm('Delete this job?'))return;S.jobs=S.jobs.filter(function(j){return j.id!==id;});sv();renderJobsAdmin();showToast('Deleted');}
-
-function renderApplicationsAdmin(){
-  var c=document.getElementById('applications-content');
-  if(!S.applications.length){c.innerHTML='<div class="no-data"><div style="font-size:28px">📭</div><div>No applications received yet.</div></div>';return;}
-  var rows=S.applications.map(function(a){return'<tr><td><strong>'+esc(a.name)+'</strong><br><span style="font-size:11px;color:var(--mid)">'+esc(a.date)+'</span></td><td><span class="sub-tag">'+esc(a.jobTitle)+'</span></td><td>'+esc(a.mobile)+'</td><td>'+esc(a.email||'-')+'</td><td>'+esc(a.exp||'-')+'</td><td style="max-width:160px">'+esc(a.why||'-')+'</td><td><button class="admin-del-btn" onclick="delApp('+a.id+')">Del</button></td></tr>';}).join('');
-  c.innerHTML='<div style="overflow-x:auto"><table class="sub-table"><thead><tr><th>Applicant</th><th>Position</th><th>Mobile</th><th>Email</th><th>Experience</th><th>Why Join?</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>';
-}
-function delApp(id){S.applications=S.applications.filter(function(a){return a.id!==id;});sv();renderApplicationsAdmin();showToast('Deleted');}
-
-function loadSettings(){document.getElementById('setting-sqyard').value=S.settings.sqyard;document.getElementById('setting-acre').value=S.settings.acre;document.getElementById('setting-ticker').value=S.settings.tickerText;}
-function saveSettings(){S.settings.sqyard=parseInt(document.getElementById('setting-sqyard').value)||702;S.settings.acre=parseInt(document.getElementById('setting-acre').value)||28;S.settings.tickerText=document.getElementById('setting-ticker').value.trim()||'₹'+S.settings.sqyard+'/- per Sq.Yd';sv();updateTicker();showToast('Settings saved!');}
-function saveCreds(){var u=document.getElementById('new-user').value.trim();var p=document.getElementById('new-pass').value;if(!u||!p){showToast('Enter username and password');return;}S.creds={user:u,pass:p};sv();showToast('Credentials updated!');}
-
-function updateTicker(){
-  document.getElementById('ticker-price').textContent=S.settings.tickerText;
-  document.getElementById('contact-price-display').textContent='₹'+S.settings.sqyard+' per Sq.Yard';
-  document.getElementById('home-rate-display').textContent='₹'+S.settings.sqyard+' per Sq.Yard | ₹'+S.settings.acre+'L per Acre';
-  var sqyd=S.settings.sqyard;var acre=S.settings.acre;
-  document.getElementById('inv-sqyd').textContent='₹'+sqyd;
-  document.getElementById('inv-sqyd1').textContent='₹'+sqyd;
-  document.getElementById('inv-sqyd2').textContent='₹'+sqyd;
-  document.getElementById('inv-acre').textContent='₹'+acre+' Lakhs';
-  document.getElementById('inv-acre1').textContent='₹'+acre+' Lakhs';
-  document.getElementById('inv-acre2').textContent='₹'+acre+' Lakhs';
-  document.getElementById('inv-25c').textContent='₹'+Math.round(sqyd*1210/100000*10)/10+' Lakhs';
-  document.getElementById('inv-half').textContent='₹'+Math.round(sqyd*2420/100000*10)/10+' Lakhs';
-  document.getElementById('inv-1a').textContent='₹'+acre+' Lakhs';
+// ── IMAGE HANDLING ─────────────────────────────────────────────────
+function previewImages() {
+  var files = document.getElementById('m-images').files;
+  if (!files.length) return;
+  Array.from(files).forEach(function(f) {
+    var r = new FileReader();
+    r.onload = function(e) {
+      ST.pendingImages.push(e.target.result);
+      renderImgPreview();
+    };
+    r.readAsDataURL(f);
+  });
+  document.getElementById('m-images').value = '';
 }
 
-function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},3000);}
-function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function renderImgPreview() {
+  var wrap = document.getElementById('m-img-preview');
+  var all = ST.existingImages.concat(ST.pendingImages);
+  wrap.innerHTML = all.map(function(src, i) {
+    var isExisting = i < ST.existingImages.length;
+    return '<div class="img-thumb"><img src="' + src + '" alt=""/><button onclick="removePreviewImg(' + i + ',' + isExisting + ')" title="Remove">×</button></div>';
+  }).join('');
+}
 
-ld();updateTicker();renderProjects();renderJobs();renderBranchesContact();renderLocations();
+function removePreviewImg(idx, isExisting) {
+  if (isExisting) { ST.existingImages.splice(idx, 1); }
+  else { ST.pendingImages.splice(idx - ST.existingImages.length, 1); }
+  renderImgPreview();
+}
+
+// ── SAVE PROJECT ──────────────────────────────────────────────────
+async function saveProject() {
+  var name = document.getElementById('m-name').value.trim();
+  if (!name) { showToast('Project name is required', true); return; }
+  var btn = document.getElementById('proj-save-btn');
+  btn.disabled = true; btn.textContent = 'Saving...';
+  try {
+    var allImages = ST.existingImages.concat(ST.pendingImages);
+    var data = {
+      name: name,
+      location: document.getElementById('m-loc').value.trim(),
+      price_acre: document.getElementById('m-pacre').value.trim(),
+      price_sqyard: document.getElementById('m-psqy').value.trim(),
+      size: document.getElementById('m-size').value.trim(),
+      plots: parseInt(document.getElementById('m-plots').value) || 0,
+      vacancy: document.getElementById('m-vacancy').value.trim(),
+      description: document.getElementById('m-desc').value.trim(),
+      images: allImages
+    };
+    if (ST.editId) { await dbUpdate('projects', ST.editId, data); }
+    else { await dbInsert('projects', data); }
+    closeModal('project');
+    renderProjectsAdmin();
+    showToast('Project saved successfully!');
+  } catch(e) { showToast('Save failed: ' + e.message, true); console.error(e); }
+  finally { btn.disabled = false; btn.textContent = 'Save Project'; }
+}
+
+// ── SAVE BRANCH ───────────────────────────────────────────────────
+async function saveBranch() {
+  var name = document.getElementById('b-name').value.trim();
+  if (!name) { showToast('Branch name is required', true); return; }
+  var btn = document.getElementById('branch-save-btn');
+  btn.disabled = true; btn.textContent = 'Saving...';
+  try {
+    var data = {
+      name: name,
+      address: document.getElementById('b-addr').value.trim(),
+      phone: document.getElementById('b-phone').value.trim(),
+      email: document.getElementById('b-email').value.trim(),
+      map_url: document.getElementById('b-map').value.trim()
+    };
+    if (ST.editId) { await dbUpdate('branches', ST.editId, data); }
+    else { await dbInsert('branches', data); }
+    closeModal('branch');
+    renderBranchesAdmin();
+    showToast('Branch saved!');
+  } catch(e) { showToast('Save failed', true); console.error(e); }
+  finally { btn.disabled = false; btn.textContent = 'Save Branch'; }
+}
+
+// ── SAVE JOB ──────────────────────────────────────────────────────
+async function saveJob() {
+  var title = document.getElementById('j-title').value.trim();
+  if (!title) { showToast('Job title is required', true); return; }
+  var btn = document.getElementById('job-save-btn');
+  btn.disabled = true; btn.textContent = 'Saving...';
+  try {
+    var data = {
+      title: title,
+      department: document.getElementById('j-dept').value.trim(),
+      location: document.getElementById('j-loc').value.trim(),
+      type: document.getElementById('j-type').value,
+      description: document.getElementById('j-desc').value.trim(),
+      active: true
+    };
+    if (ST.editId) { await dbUpdate('jobs', ST.editId, data); }
+    else { await dbInsert('jobs', data); }
+    closeModal('job');
+    renderJobsAdmin();
+    showToast('Job saved!');
+  } catch(e) { showToast('Save failed', true); console.error(e); }
+  finally { btn.disabled = false; btn.textContent = 'Save Job'; }
+}
+
+// ── SETTINGS ──────────────────────────────────────────────────────
+async function loadAdminSettings() {
+  try {
+    var rows = await dbGet('settings', 'id=eq.1');
+    if (rows.length) {
+      var s = rows[0];
+      document.getElementById('setting-sqyard').value = s.sqyard || 579;
+      document.getElementById('setting-acre').value = s.acre || 28;
+      document.getElementById('setting-ticker').value = s.ticker_text || '';
+    }
+  } catch(e) { console.warn(e); }
+}
+
+async function saveSettings() {
+  var sqyard = parseInt(document.getElementById('setting-sqyard').value) || 579;
+  var acre = parseInt(document.getElementById('setting-acre').value) || 28;
+  var ticker = document.getElementById('setting-ticker').value.trim() || '₹' + sqyard + '/- per Sq.Yd';
+  try {
+    await dbUpdate('settings', 1, { sqyard: sqyard, acre: acre, ticker_text: ticker });
+    ST.settings.sqyard = sqyard; ST.settings.acre = acre; ST.settings.ticker_text = ticker;
+    updateTicker();
+    showToast('Settings saved! All devices will see the new rate.');
+  } catch(e) { showToast('Save failed', true); console.error(e); }
+}
+
+async function saveCreds() {
+  var u = document.getElementById('new-user').value.trim();
+  var p = document.getElementById('new-pass').value;
+  if (!u || !p) { showToast('Enter both username and password', true); return; }
+  try {
+    await dbUpdate('settings', 1, { admin_user: u, admin_pass: p });
+    showToast('Credentials updated successfully!');
+  } catch(e) { showToast('Update failed', true); console.error(e); }
+}
 </script>
 </body>
 </html>
